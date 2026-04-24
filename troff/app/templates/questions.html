@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h1>Question Backlog</h1>
+  <form action="/questions" method="post" class="form-grid">
+    <label>Input type
+      <select name="input_type">
+        {% for t in input_types %}
+        <option value="{{ t }}">{{ t }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Question text
+      <textarea name="question_text" rows="3" placeholder="What should we write about?"></textarea>
+    </label>
+    <label>Source URL (optional or required for url mode)
+      <input type="url" name="source_url" placeholder="https://..." />
+    </label>
+    <label>Target keyword
+      <input type="text" name="target_keyword" />
+    </label>
+    <label>Audience
+      <input type="text" name="audience" />
+    </label>
+    <label>Website URL
+      <input type="url" name="website_url" placeholder="https://www.billwithbomi.com" />
+    </label>
+    <label>Author
+      <select name="author_profile_id" required>
+        {% for author in authors %}
+        <option value="{{ author.id }}">{{ author.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <div class="actions">
+      <button type="submit">Add to Backlog</button>
+    </div>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Queued and Generated Seeds</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Input</th>
+        <th>Author</th>
+        <th>Status</th>
+        <th>Created</th>
+        <th>Next Step</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for seed in questions %}
+      {% set package = package_by_seed_id.get(seed.id) %}
+      <tr>
+        <td>{{ seed.id }}</td>
+        <td class="small">{{ seed_display(seed) }}</td>
+        <td>{{ seed.author_profile.name if seed.author_profile else 'N/A' }}</td>
+        <td><span class="pill {{ seed.status.value }}">{{ seed.status.value }}</span></td>
+        <td>{{ seed.created_at }}</td>
+        <td>
+          {% if package %}
+          <a href="/packages/{{ package.id }}">Open package #{{ package.id }}</a>
+          {% else %}
+          <form action="/questions/{{ seed.id }}/generate" method="post">
+            <button type="submit" {{ 'disabled' if seed.status.value == 'generated' else '' }}>Generate Now</button>
+          </form>
+          {% endif %}
+          {% if seed.error_message %}
+          <div class="small status-note">{{ seed.error_message }}</div>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

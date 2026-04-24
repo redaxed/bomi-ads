@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h1>Queue Operations Dashboard</h1>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-label">Queued Questions</div><div class="stat-value">{{ queued_questions }}</div></div>
+    <div class="stat-card"><div class="stat-label">Unread Inbox</div><div class="stat-value">{{ pending_inbox }}</div></div>
+    <div class="stat-card"><div class="stat-label">Published Blogs</div><div class="stat-value">{{ published_blogs }}</div></div>
+    <div class="stat-card"><div class="stat-label">Dead-Letter Items</div><div class="stat-value">{{ failed_items }}</div></div>
+  </div>
+  <p class="small muted">
+    {% if scheduler_enabled %}
+    Daily dispatch: {{ dispatch_time }} ({{ tz }})
+    {% else %}
+    Scheduler disabled. Use Run Dispatch for manual-first MVP testing.
+    {% endif %}
+  </p>
+</section>
+
+<section class="card">
+  <div class="row-between">
+    <h2>Recent Content Packages</h2>
+    <a href="/questions">Create from backlog</a>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Question</th>
+        <th>Status</th>
+        <th>Created</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for package in recent_packages %}
+      <tr>
+        <td>{{ package.id }}</td>
+        <td>{{ package.question }}</td>
+        <td><span class="pill {{ package.status.value }}">{{ package.status.value }}</span></td>
+        <td>{{ package.created_at }}</td>
+        <td><a href="/packages/{{ package.id }}">Review</a></td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" class="muted">No packages yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

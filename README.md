@@ -6,6 +6,7 @@ Scripts and notes for managing Bomi Google Ads without hand-building everything 
 
 - `google-ads-scripts/` - JavaScript files to paste into Google Ads > Tools > Bulk actions > Scripts.
 - `scripts/` - local terminal scripts that call the Google Ads API.
+- `troff/` - local content ops app for SEO question -> landing blog -> social drafts.
 - `docs/` - setup notes, campaign audit findings, and clone prep notes.
 - `reports/` - dated ads report artifacts.
 - `skills/` - local Codex workflow instructions for recurring ads work.
@@ -42,6 +43,28 @@ The Codex `Ads Report` automation uses [skills/daily-ads-report/SKILL.md](skills
 4. Post the generated summary to Slack `#gtm`.
 
 The automation posts through the connected Slack app user and should not include secrets or raw credential details.
+
+## Troff content workflow
+
+[troff/](troff/) is the local content tool for turning one SEO question into a reusable content package:
+
+```text
+SEO question or source URL -> landing blog draft -> 3-5 key insights -> social drafts -> review queue -> publish
+```
+
+It can write blog posts into the sibling `landing` repo, extract the strongest insights from the blog draft, generate LinkedIn/Reddit/Facebook/Instagram/TikTok drafts for enabled channels, and optionally attach generated media card URLs to social posts.
+
+Quick start:
+
+```sh
+cd troff
+cp .env.example .env
+python3.12 -m venv .venv
+.venv/bin/pip install -r requirements.txt pytest
+.venv/bin/uvicorn app.main:app --reload --port 8080
+```
+
+Set `LANDING_REPO_PATH=/Users/dax/bomi/landing` for host-local blog publishing. For Docker, mount `../../landing:/landing` and set `LANDING_REPO_PATH=/landing` inside `.env`.
 
 ## Credentials
 

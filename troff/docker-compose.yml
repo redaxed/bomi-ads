@@ -1,0 +1,15 @@
+services:
+  troff:
+    build: .
+    container_name: bomi-ads-troff
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/data
+      # Mount landing repo if using direct landing PR automation
+      # - ../../landing:/landing
+      # Mount service-account key for GCS uploads
+      # - ./secrets/gcp-key.json:/secrets/gcp-key.json:ro
+    restart: unless-stopped

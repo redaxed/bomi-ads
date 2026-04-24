@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <div class="row-between">
+    <h1>Package #{{ package.id }}</h1>
+    <div class="actions">
+      <a href="/pipeline">View Pipeline</a>
+      {% for surface in queue_surfaces %}
+      <a href="/queue/{{ surface }}">{{ surface|upper }} Queue</a>
+      {% endfor %}
+    </div>
+  </div>
+  <p><strong>Status:</strong> <span class="pill {{ package.status.value }}">{{ package.status.value }}</span></p>
+  <p class="small muted">Workflow: edit here, save draft changes, then approve individual items below or from the queue pages.</p>
+</section>
+
+<form action="/packages/{{ package.id }}/save" method="post" class="stack">
+  <section class="card">
+    <h2>Input Context</h2>
+    <div class="form-grid">
+      <label>Question/topic
+        <textarea name="question" rows="2">{{ package.question }}</textarea>
+      </label>
+      <label>Target keyword
+        <input type="text" name="target_keyword" value="{{ package.target_keyword }}" />
+      </label>
+      <label>Audience
+        <input type="text" name="audience" value="{{ package.audience }}" />
+      </label>
+      <label>Website URL
+        <input type="url" name="website_url" value="{{ package.website_url }}" />
+      </label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Blog Draft</h2>
+    {% if blog_readiness %}
+    <p class="small">
+      Landing readiness: <strong>{{ blog_readiness.passed_checks }}/{{ blog_readiness.total_checks }}</strong> checks
+      {% if blog_readiness.is_publish_ready %}
+      | Troff has the landing shape covered.
+      {% else %}
+      | Troff should handle this automatically, but these are the misses still worth fixing before blog publish.
+      {% endif %}
+    </p>
+    {% if blog_readiness.failed_items %}
+    <div class="stack">
+      {% for item in blog_readiness.failed_items %}
+      <p class="small status-note"><strong>{{ item.label }}</strong>: {{ item.detail }}</p>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endif %}
+    <div class="form-grid">
+      <label>Title
+        <input type="text" name="blog_title" value="{{ blog.title }}" />
+      </label>
+      <label>Slug
+        <input type="text" name="blog_slug" value="{{ blog.slug }}" />
+      </label>
+      <label>Meta description
+        <input type="text" name="blog_meta_description" value="{{ blog.meta_description }}" />
+      </label>
+    </div>
+    <label>Key insights (3-5, one per line)
+      <textarea name="interesting_points" rows="5">{{ points_text }}</textarea>
+    </label>
+    <label>Markdown
+      <textarea name="blog_markdown" rows="16">{{ blog.markdown }}</textarea>
+    </label>
+    <p class="small">Status: <span class="pill {{ blog.status.value }}">{{ blog.status.value }}</span> {% if blog.blocked_reason %}<span class="status-note">{{ blog.blocked_reason }}</span>{% endif %}</p>
+  </section>
+
+  <section class="card">
+    <h2>Surface Drafts</h2>
+    <div class="stack">
+    {% for post in social_posts %}
+      <article class="card">
+        <h3>{{ post.platform.value|upper }} #{{ post.sequence }}</h3>
+        <label>Body
+          <textarea name="social_{{ post.id }}_body" rows="5">{{ post.body }}</textarea>
+        </label>
+        <div class="form-grid">
+          <label>Media asset URL
+            <input type="url" name="social_{{ post.id }}_asset_url" value="{{ post.asset_url }}" />
+          </label>
+          {% if post.platform.value == 'reddit' %}
+          <label>Reddit title
+            <input type="text" name="social_{{ post.id }}_reddit_title" value="{{ post.reddit_title }}" />
+          </label>
+          <label>Reddit subreddit
+            <input type="text" name="social_{{ post.id }}_reddit_subreddit" value="{{ post.reddit_subreddit }}" />
+          </label>
+          {% endif %}
+        </div>
+        {% if post.asset_url %}
+        <img class="media-preview" src="{{ post.asset_url }}" alt="Media card preview for {{ post.platform.value }} insight {{ post.sequence }}" />
+        {% endif %}
+        <p class="small">Status: <span class="pill {{ post.status.value }}">{{ post.status.value }}</span> {% if post.blocked_reason %}<span class="status-note">{{ post.blocked_reason }}</span>{% endif %}</p>
+      </article>
+    {% endfor %}
+    </div>
+  </section>
+
+  <div class="actions">
+    <button type="submit">Save Draft Changes</button>
+  </div>
+</form>
+
+<section class="card">
+  <h2>Refresh From Blog</h2>
+  <p class="small muted">Re-extracts 3-5 insights from the latest saved blog and regenerates draft-only social posts for enabled surfaces.</p>
+  <div class="actions">
+    <form action="/packages/{{ package.id }}/refresh-socials" method="post"><button type="submit">Refresh Social Drafts</button></form>
+    <form action="/packages/{{ package.id }}/generate-media" method="post"><button type="submit" class="secondary">Generate Missing Media Cards</button></form>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Approve Pieces</h2>
+  <p class="small muted">Save edits above first. These buttons change publish status immediately and send you back here.</p>
+  <div class="stack">
+    <article class="card">
+      <div class="row-between">
+        <h3>BLOG</h3>
+        <span class="pill {{ blog.status.value }}">{{ blog.status.value }}</span>
+      </div>
+      <p class="small muted">Approve the blog before you dispatch. Social posts can be approved too, but they will wait for the blog to be live.</p>
+      <div class="actions">
+        <form action="/packages/{{ package.id }}/blog/{{ blog.id }}/action" method="post"><input type="hidden" name="action" value="approve" /><button type="submit">Approve</button></form>
+        <form action="/packages/{{ package.id }}/blog/{{ blog.id }}/action" method="post"><input type="hidden" name="action" value="block" /><button type="submit" class="secondary">Block</button></form>
+        <form action="/packages/{{ package.id }}/blog/{{ blog.id }}/action" method="post"><input type="hidden" name="action" value="ignore" /><button type="submit" class="secondary">Ignore</button></form>
+        <a href="/queue/blog">Open Blog Queue</a>
+      </div>
+      {% if blog.blocked_reason %}<p class="small status-note">{{ blog.blocked_reason }}</p>{% endif %}
+      {% if blog.error_message %}<p class="small status-note">{{ blog.error_message }}</p>{% endif %}
+    </article>
+
+    {% for post in social_posts %}
+    <article class="card">
+      <div class="row-between">
+        <h3>{{ post.platform.value|upper }} #{{ post.sequence }}</h3>
+        <span class="pill {{ post.status.value }}">{{ post.status.value }}</span>
+      </div>
+      <p class="small muted">
+        Approve when the copy feels right. Dispatch will still hold this until the blog URL is live.
+        <a href="/queue/{{ post.platform.value }}">Open {{ post.platform.value|upper }} Queue</a>
+      </p>
+      <div class="actions">
+        <form action="/packages/{{ package.id }}/social/{{ post.id }}/action" method="post"><input type="hidden" name="action" value="approve" /><button type="submit">Approve</button></form>
+        <form action="/packages/{{ package.id }}/social/{{ post.id }}/action" method="post"><input type="hidden" name="action" value="block" /><button type="submit" class="secondary">Block</button></form>
+        <form action="/packages/{{ package.id }}/social/{{ post.id }}/action" method="post"><input type="hidden" name="action" value="ignore" /><button type="submit" class="secondary">Ignore</button></form>
+      </div>
+      {% if post.blocked_reason %}<p class="small status-note">{{ post.blocked_reason }}</p>{% endif %}
+      {% if post.error_message %}<p class="small status-note">{{ post.error_message }}</p>{% endif %}
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

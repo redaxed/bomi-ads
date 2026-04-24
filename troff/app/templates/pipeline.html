@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h1>Pipeline Map</h1>
+  <p class="small muted">Question/source -> blog -> surface content with publish status.</p>
+</section>
+
+<section class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Campaign</th>
+        <th>Question/Source</th>
+        <th>Author</th>
+        <th>Blog</th>
+        {% for surface in surfaces %}
+        <th>{{ surface|upper }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <td>#{{ row.campaign.id }}<br/><span class="small muted">{{ row.campaign.status.value }}</span></td>
+        <td class="small">
+          {% if row.seed %}
+            {% if row.seed.input_type.value == 'url' %}
+              <a href="{{ row.seed.source_url }}" target="_blank">{{ row.seed.source_title or row.seed.source_url }}</a>
+            {% else %}
+              {{ row.seed.question_text }}
+            {% endif %}
+          {% else %}
+            {{ row.package.question }}
+          {% endif %}
+        </td>
+        <td>{{ row.package.author_profile.name if row.package.author_profile else 'N/A' }}</td>
+        <td class="small">
+          {% if row.blog %}
+            <span class="pill {{ row.blog.status.value }}">{{ row.blog.status.value }}</span><br/>
+            <a href="/packages/{{ row.package.id }}">{{ row.blog.slug }}</a>
+            {% if row.blog.landing_pr_url %}<br/><a href="{{ row.blog.landing_pr_url }}" target="_blank">PR</a>{% endif %}
+            {% if row.blog.canonical_url %}<br/><a href="{{ row.blog.canonical_url }}" target="_blank">Live URL</a>{% endif %}
+          {% endif %}
+        </td>
+        {% for surface in surfaces %}
+        {% set s = row.by_surface[surface] %}
+        <td class="small">
+          total: {{ s.count }}<br/>
+          published: {{ s.published }}<br/>
+          blocked: {{ s.blocked }}<br/>
+          failed: {{ s.failed }}
+        </td>
+        {% endfor %}
+      </tr>
+      {% else %}
+      <tr><td colspan="20" class="muted">No campaigns yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

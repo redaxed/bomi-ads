@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h1>Create Content Package</h1>
+  <form action="/generate" method="post" class="form-grid">
+    <label>Question/topic
+      <textarea name="question" rows="3" required placeholder="What problem are we solving?"></textarea>
+    </label>
+    <label>Target keyword
+      <input type="text" name="target_keyword" placeholder="e.g. seo content workflow" />
+    </label>
+    <label>Audience
+      <input type="text" name="audience" placeholder="Founders, growth teams..." />
+    </label>
+    <label>Website URL
+      <input type="url" name="website_url" placeholder="https://example.com/blog/post" />
+    </label>
+    <label>Tone
+      <input type="text" name="tone" value="clear" />
+    </label>
+    <label>Micro-snippets
+      <input type="number" name="snippet_count" min="1" max="20" value="8" />
+    </label>
+    <div>
+      <div class="label">Channels</div>
+      {% for platform in platforms %}
+        <label class="check"><input type="checkbox" name="platforms" value="{{ platform }}" checked /> {{ platform }}</label>
+      {% endfor %}
+    </div>
+    <div class="actions">
+      <button type="submit">Generate Drafts</button>
+    </div>
+  </form>
+</section>
+
+<section class="card">
+  <div class="row-between">
+    <h2>Packages</h2>
+    <form action="/run-worker" method="post"><button type="submit" class="secondary">Run Worker Now</button></form>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Question</th>
+        <th>Status</th>
+        <th>Created</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for package in packages %}
+      <tr>
+        <td>{{ package.id }}</td>
+        <td>{{ package.question }}</td>
+        <td><span class="pill {{ package.status.value }}">{{ package.status.value }}</span></td>
+        <td>{{ package.created_at }}</td>
+        <td><a href="/packages/{{ package.id }}">Review</a></td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" class="muted">No packages yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p class="muted small">Timezone used for scheduling: {{ tz }}</p>
+</section>
+{% endblock %}

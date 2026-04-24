@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.*
+!.env.example
+.venv/
+.playwright-cli/
+.pytest_cache/
+.DS_Store
+.uvicorn.log
+tests/__pycache__/
+app/__pycache__/
+data/*.db
+data/outbox/

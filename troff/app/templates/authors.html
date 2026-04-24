@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h1>Author Settings</h1>
+  <form action="/authors" method="post" class="form-grid">
+    <label>Name
+      <input type="text" name="name" required />
+    </label>
+    <label>Tone summary
+      <input type="text" name="tone_summary" placeholder="Practical and concise" />
+    </label>
+    <label>CTA style
+      <input type="text" name="cta_style" placeholder="Invite one action" />
+    </label>
+    <label>Do rules (one per line)
+      <textarea name="dos" rows="5"></textarea>
+    </label>
+    <label>Don't rules (one per line)
+      <textarea name="donts" rows="5"></textarea>
+    </label>
+    <label>Writing samples (one per line)
+      <textarea name="writing_samples" rows="5"></textarea>
+    </label>
+    <label>Default subreddits (one per line, no r/)
+      <textarea name="default_subreddits" rows="4">billwithbomi</textarea>
+    </label>
+    <div class="actions">
+      <button type="submit">Create Author</button>
+    </div>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Author Profiles</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Tone</th>
+        <th>Subreddits</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for author in authors %}
+      <tr>
+        <td>{{ author.name }}</td>
+        <td><span class="pill {{ 'published' if author.active else 'failed' }}">{{ 'active' if author.active else 'inactive' }}</span></td>
+        <td class="small">{{ author.tone_summary }}</td>
+        <td class="small">{{ safe_list(author.default_subreddits_json)|join(', ') }}</td>
+        <td>
+          <form action="/authors/{{ author.id }}/toggle" method="post">
+            <button type="submit" class="secondary">{{ 'Archive' if author.active else 'Activate' }}</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

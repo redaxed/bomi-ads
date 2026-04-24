@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <div class="row-between">
+    <h1>{{ surface|upper }} Queue</h1>
+    <div class="surface-links">
+      {% for queue_surface in queue_surfaces %}
+      <a href="/queue/{{ queue_surface }}">{{ queue_surface|upper }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  <p class="small muted">Drag cards to reorder then click Save Order.</p>
+</section>
+
+<section class="card">
+  <form action="/queue/{{ surface }}/reorder" method="post" id="order-form">
+    <input type="hidden" name="ordered_ids" id="ordered-ids" />
+    <button type="submit">Save Order</button>
+  </form>
+</section>
+
+<section id="queue-list" class="stack">
+{% for item in items %}
+  <article class="card queue-item" draggable="true" data-id="{{ item.id }}">
+    <div class="row-between">
+      <h3>#{{ item.queue_position }} {% if is_blog %}{{ item.title }}{% else %}{{ item.platform.value|upper }} Insight #{{ item.sequence }}{% endif %}</h3>
+      <span class="pill {{ item.status.value }}">{{ item.status.value }}</span>
+    </div>
+
+    {% if is_blog %}
+    <form action="/queue/{{ surface }}/blog/{{ item.id }}/update" method="post" class="stack">
+      <label>Title
+        <input type="text" name="title" value="{{ item.title }}" />
+      </label>
+      <label>Meta description
+        <input type="text" name="meta_description" value="{{ item.meta_description }}" />
+      </label>
+      <label>Markdown
+        <textarea name="markdown" rows="8">{{ item.markdown }}</textarea>
+      </label>
+      <label>Status
+        <select name="status">
+          {% for s in ['draft','approved','blocked','failed','ignored'] %}
+          <option value="{{ s }}" {{ 'selected' if item.status.value == s else '' }}>{{ s }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <div class="actions"><button type="submit" class="secondary">Save</button></div>
+    </form>
+    <div class="actions">
+      <form action="/queue/{{ surface }}/blog/{{ item.id }}/action" method="post"><input type="hidden" name="action" value="approve" /><button type="submit">Approve</button></form>
+      <form action="/queue/{{ surface }}/blog/{{ item.id }}/action" method="post"><input type="hidden" name="action" value="block" /><button type="submit" class="secondary">Block</button></form>
+      <form action="/queue/{{ surface }}/blog/{{ item.id }}/action" method="post"><input type="hidden" name="action" value="unblock" /><button type="submit" class="secondary">Unblock</button></form>
+      <form action="/queue/{{ surface }}/blog/{{ item.id }}/action" method="post"><input type="hidden" name="action" value="requeue" /><button type="submit" class="secondary">Requeue</button></form>
+      <form action="/queue/{{ surface }}/blog/{{ item.id }}/action" method="post"><input type="hidden" name="action" value="ignore" /><button type="submit" class="secondary">Ignore</button></form>
+    </div>
+    {% else %}
+    <form action="/queue/{{ surface }}/social/{{ item.id }}/update" method="post" class="stack">
+      <label>Body
+        <textarea name="body" rows="6">{{ item.body }}</textarea>
+      </label>
+      <div class="form-grid">
+        <label>Asset URL
+          <input type="url" name="asset_url" value="{{ item.asset_url }}" />
+        </label>
+        {% if surface == 'reddit' %}
+        <label>Reddit title
+          <input type="text" name="reddit_title" value="{{ item.reddit_title }}" />
+        </label>
+        <label>Reddit subreddit
+          <input type="text" name="reddit_subreddit" value="{{ item.reddit_subreddit }}" />
+        </label>
+          {% endif %}
+      </div>
+      {% if item.asset_url %}
+      <img class="media-preview" src="{{ item.asset_url }}" alt="Media card preview for {{ item.platform.value }} insight {{ item.sequence }}" />
+      {% endif %}
+      <label>Status
+        <select name="status">
+          {% for s in ['draft','approved','blocked','failed','ignored'] %}
+          <option value="{{ s }}" {{ 'selected' if item.status.value == s else '' }}>{{ s }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <div class="actions"><button type="submit" class="secondary">Save</button></div>
+    </form>
+    <div class="actions">
+      <form action="/queue/{{ surface }}/social/{{ item.id }}/action" method="post"><input type="hidden" name="action" value="approve" /><button type="submit">Approve</button></form>
+      <form action="/queue/{{ surface }}/social/{{ item.id }}/action" method="post"><input type="hidden" name="action" value="block" /><button type="submit" class="secondary">Block</button></form>
+      <form action="/queue/{{ surface }}/social/{{ item.id }}/action" method="post"><input type="hidden" name="action" value="unblock" /><button type="submit" class="secondary">Unblock</button></form>
+      <form action="/queue/{{ surface }}/social/{{ item.id }}/action" method="post"><input type="hidden" name="action" value="requeue" /><button type="submit" class="secondary">Requeue</button></form>
+      <form action="/queue/{{ surface }}/social/{{ item.id }}/action" method="post"><input type="hidden" name="action" value="ignore" /><button type="submit" class="secondary">Ignore</button></form>
+    </div>
+    {% endif %}
+
+    {% if item.blocked_reason %}<p class="small status-note">{{ item.blocked_reason }}</p>{% endif %}
+    {% if item.error_message %}<p class="small status-note">{{ item.error_message }}</p>{% endif %}
+  </article>
+{% else %}
+  <section class="card"><p class="muted">No queued items.</p></section>
+{% endfor %}
+</section>
+
+<script>
+(() => {
+  const list = document.getElementById('queue-list');
+  if (!list) return;
+  let dragEl = null;
+
+  const items = () => Array.from(list.querySelectorAll('.queue-item'));
+
+  items().forEach((el) => {
+    el.addEventListener('dragstart', () => {
+      dragEl = el;
+      el.classList.add('dragging');
+    });
+    el.addEventListener('dragend', () => {
+      el.classList.remove('dragging');
+      dragEl = null;
+    });
+    el.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      if (!dragEl || dragEl === el) return;
+      const rect = el.getBoundingClientRect();
+      const isAfter = (event.clientY - rect.top) > rect.height / 2;
+      if (isAfter) {
+        el.after(dragEl);
+      } else {
+        el.before(dragEl);
+      }
+    });
+  });
+
+  const form = document.getElementById('order-form');
+  form?.addEventListener('submit', () => {
+    const ordered = items().map((el) => el.dataset.id).filter(Boolean);
+    document.getElementById('ordered-ids').value = ordered.join(',');
+  });
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Troff</title>
+  <link
+    rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%230f6db8%27/%3E%3Ctext x=%2750%27 y=%2764%27 text-anchor=%27middle%27 font-family=%27Arial%2C sans-serif%27 font-size=%2754%27 font-weight=%27700%27 fill=%27white%27%3ET%3C/text%3E%3C/svg%3E"
+  />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  {% set path = request.url.path %}
+  <header class="topbar">
+    <a href="/" class="brand">Troff</a>
+    <nav class="topnav">
+      <a href="/questions" class="{{ 'active' if path.startswith('/questions') else '' }}">Backlog</a>
+      <a href="/authors" class="{{ 'active' if path.startswith('/authors') else '' }}">Authors</a>
+      <a href="/pipeline" class="{{ 'active' if path.startswith('/pipeline') else '' }}">Pipeline</a>
+      <a href="/queue/blog" class="{{ 'active' if path.startswith('/queue') or path.startswith('/packages') else '' }}">Queues</a>
+      <a href="/failures" class="{{ 'active' if path.startswith('/failures') or path.startswith('/inbox') else '' }}">Failures</a>
+      <form action="/run-dispatch" method="post"><button type="submit" class="small-btn">Run Dispatch</button></form>
+    </nav>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

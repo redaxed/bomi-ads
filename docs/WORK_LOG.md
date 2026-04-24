@@ -4,6 +4,16 @@ This records what has been done so far for Bomi Google Ads automation.
 
 ## 2026-04-24
 
+### Troff content workflow
+
+Added `troff/` to the ads automation repo as a local content ops app for:
+
+- Turning SEO questions or source URLs into landing-ready blog drafts.
+- Extracting 3-5 reusable insights from each blog.
+- Generating channel-native social drafts from those insights.
+- Reviewing, queuing, and publishing blog/social pieces through configured landing and Postiz integrations.
+- Optionally attaching generated media card URLs to selected social surfaces.
+
 ### Goal
 
 Avoid rebuilding campaigns manually in the Google Ads UI. The immediate requested task was to clone the current Illinois campaign setup for:
