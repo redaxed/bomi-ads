@@ -11,9 +11,12 @@ Use this skill to create Bomi's daily Google Ads report.
    - Prior day
    - Same weekday last week
    - Last 7 full days ending on the primary day
-4. Save the report as `reports/YYYY-MM-DD-daily-ads-report.md`.
-5. Commit and push the report update to `main` in `redaxed/bomi-ads` when the report file changed.
-6. Post a concise report summary to Slack `#gtm` (`C0AUU3KTJ6P`) as the connected Slack user.
+4. Save the report, Slack summary, and chart artifacts:
+   - `reports/YYYY-MM-DD-daily-ads-report.md`
+   - `reports/YYYY-MM-DD-daily-ads-slack.md`
+   - `reports/YYYY-MM-DD-daily-ads-chart.svg`
+5. Commit and push the generated artifacts to `main` in `redaxed/bomi-ads` when any of them changed.
+6. Post the generated Slack summary to Slack `#gtm` (`C0AUU3KTJ6P`) as the connected Slack user.
 7. If live API access fails, still save, commit, push, and post a transparent blocked report instead of presenting stale metrics as live.
 
 ## Command
@@ -31,10 +34,10 @@ Do not copy credentials into automation worktrees or commit `.env`.
 
 ## Commit
 
-After generating the report, stage only the generated dated report file and commit it if it changed:
+After generating the report, stage only the generated dated report artifacts and commit them if they changed:
 
 ```sh
-git add reports/YYYY-MM-DD-daily-ads-report.md
+git add reports/YYYY-MM-DD-daily-ads-report.md reports/YYYY-MM-DD-daily-ads-slack.md reports/YYYY-MM-DD-daily-ads-chart.svg
 git diff --cached --quiet || git commit -m "Update ads report for YYYY-MM-DD"
 git push origin HEAD:main
 ```
@@ -43,11 +46,11 @@ If there are no staged changes, skip the commit and push. If the push is rejecte
 
 ## Slack
 
-Post to `#gtm` (`C0AUU3KTJ6P`) with a short summary pulled from the report:
+Post the exact contents of `reports/YYYY-MM-DD-daily-ads-slack.md` to `#gtm` (`C0AUU3KTJ6P`). The generated summary uses Slack mrkdwn, including:
 
-- report date
-- spend, clicks, conversions, and CPA, or the live-data blocker if the pull failed
-- campaign status note when Ohio/Indiana are present
-- GitHub link to the committed report, when a commit was created or the report already exists on `main`
+- bold section labels with single asterisks
+- spend, clicks, conversions, CPA, and prior-day deltas
+- a monospace mini chart that renders reliably in Slack
+- links to the committed report and SVG chart
 
 Keep the Slack message brief and do not include secrets, credential paths, or raw OAuth/API errors beyond the high-level blocker.

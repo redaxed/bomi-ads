@@ -37,8 +37,9 @@ See [docs/WORK_LOG.md](docs/WORK_LOG.md) for the narrative of what has been done
 The Codex `Ads Report` automation uses [skills/daily-ads-report/SKILL.md](skills/daily-ads-report/SKILL.md). Each run should:
 
 1. Generate the previous full account-local day report.
-2. Commit and push the dated report update to this repo.
-3. Post a concise summary to Slack `#gtm`.
+2. Generate a Slack-ready summary and SVG chart artifact.
+3. Commit and push the dated report artifacts to this repo.
+4. Post the generated summary to Slack `#gtm`.
 
 The automation posts through the connected Slack app user and should not include secrets or raw credential details.
 
