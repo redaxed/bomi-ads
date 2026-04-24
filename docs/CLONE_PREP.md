@@ -77,9 +77,9 @@ Validated clean:
 
 ```sh
 set -a
-source ads/.env
+source .env
 set +a
-python3 ads/google_ads_clone_state_campaigns.py --source-campaign-id 23586656126
+python3 scripts/google_ads_clone_state_campaigns.py --source-campaign-id 23586656126
 ```
 
 Google returned `{}` for both target mutations in validate-only mode.
@@ -92,9 +92,9 @@ This creates paused Ohio and Indiana campaigns:
 
 ```sh
 set -a
-source ads/.env
+source .env
 set +a
-python3 ads/google_ads_clone_state_campaigns.py --source-campaign-id 23586656126 --apply
+python3 scripts/google_ads_clone_state_campaigns.py --source-campaign-id 23586656126 --apply
 ```
 
 After applying, review the new campaigns in Google Ads before enabling them.

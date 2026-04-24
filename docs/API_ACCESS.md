@@ -2,7 +2,7 @@
 
 Goal: let Codex run read-only audits and tightly-scoped campaign creation from the terminal without using the Google Ads UI for every change.
 
-Do not paste secrets into chat. Put secrets in a local ignored file such as `ads/.env` or a local JSON key file.
+Do not paste secrets into chat. Put secrets in a local ignored file such as `.env` or a local JSON key file.
 
 ## What Codex can do with API access
 
@@ -90,12 +90,12 @@ https://www.googleapis.com/auth/adwords
 
 Keep the resulting `refresh_token` local. Do not paste it into chat.
 
-### Step 6: Put credentials into `ads/.env`
+### Step 6: Put credentials into `.env`
 
-Create `ads/.env` from `.env.example`:
+Create `.env` from `.env.example`:
 
 ```sh
-cp ads/.env.example ads/.env
+cp .env.example .env
 ```
 
 Fill in:
@@ -138,7 +138,7 @@ GOOGLE_ADS_CUSTOMER_ID=...
 GOOGLE_ADS_LOGIN_CUSTOMER_ID=...
 ```
 
-The existing `google_ads_clone_state_campaigns.py` supports this path now.
+The existing `scripts/google_ads_clone_state_campaigns.py` supports this path now.
 
 #### Option B: service account
 
@@ -150,13 +150,13 @@ High-level setup:
 2. Download its JSON key locally.
 3. Add the service account email as a user in Google Ads: Admin > Access and security.
 4. Give it only the access level needed for the work.
-5. Store the key file somewhere local and ignored, for example `ads/service-account.local.json`.
+5. Store the key file somewhere local and ignored, for example `service-account.local.json`.
 
 The current Python script does not yet load service-account JSON directly. Add that before choosing this route.
 
 ## Local secret handoff
 
-Create `ads/.env` locally:
+Create `.env` locally:
 
 ```sh
 GOOGLE_ADS_DEVELOPER_TOKEN=
@@ -167,15 +167,15 @@ GOOGLE_ADS_CUSTOMER_ID=
 GOOGLE_ADS_LOGIN_CUSTOMER_ID=
 ```
 
-`ads/.env` is ignored by `ads/.gitignore`.
+`.env` is ignored by `.gitignore`.
 
 Then ask Codex to run:
 
 ```sh
 set -a
-source ads/.env
+source .env
 set +a
-python3 ads/google_ads_clone_state_campaigns.py --source-campaign-name Illinois
+python3 scripts/google_ads_clone_state_campaigns.py --source-campaign-name Illinois
 ```
 
 That command validates the planned Ohio and Indiana campaign clone without creating campaigns.
