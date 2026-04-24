@@ -6,6 +6,9 @@ services:
       - "8080:8080"
     env_file:
       - .env
+    environment:
+      DATABASE_URL: sqlite:////data/troff.db
+      BLOG_OUTBOX_DIR: /data/outbox/blog
     volumes:
       - ./data:/data
       # Mount landing repo if using direct landing PR automation

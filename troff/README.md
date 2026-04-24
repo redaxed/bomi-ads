@@ -89,6 +89,7 @@ cp .env.example .env
 - Optional: `ENABLE_MEDIA_CARDS=true`
 - Optional: `MEDIA_CARD_SURFACES=linkedin,facebook,instagram,tiktok`
 - Optional: `MEDIA_PROVIDER=gcs`, `GCS_BUCKET`, and `GCS_PUBLIC_BASE_URL`
+- Optional: `MEDIA_CARD_OUTPUT_DIR=app/static/generated/cards` for locally served card previews
 - Optional: `BLOG_WORD_COUNT`, `BLOG_DEFAULT_AUDIENCE`, `BLOG_DEFAULT_POV`
 
 3. Create a local venv and install dependencies:
@@ -129,5 +130,6 @@ Troff can generate square text cards from each extracted insight and attach thos
 
 - GCS upload with `MEDIA_PROVIDER=gcs`, `GCS_BUCKET`, and Google credentials.
 - Existing public hosting with `PUBLIC_MEDIA_BASE_URL`, where generated files are served from the configured base URL.
+- Local static previews with `MEDIA_PROVIDER=local` and `MEDIA_CARD_OUTPUT_DIR=app/static/generated/cards`.
 
 The package review page also has a `Generate Missing Media Cards` action, so you can turn media on later and backfill assets for an already-generated package.

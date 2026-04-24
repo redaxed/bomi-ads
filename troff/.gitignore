@@ -12,5 +12,6 @@ __pycache__/
 .uvicorn.log
 tests/__pycache__/
 app/__pycache__/
+app/static/generated/
 data/*.db
 data/outbox/

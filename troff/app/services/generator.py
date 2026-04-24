@@ -145,7 +145,7 @@ def assess_blog_readiness(
     actionable_lines = sections.get("Actionable Takeaways", [])
     sources_lines = sections.get("Sources / Further Reading", [])
     has_sources_link = any("](" in line for line in sources_lines)
-    has_numbered_list = bool(re.search(r"(?m)^\d+\.\s+", markdown))
+    has_numbered_list = bool(re.search(r"(?m)^\s*\d+\.\s+", markdown))
     has_duplicate_h1 = bool(re.search(r"(?m)^\s*#\s+", markdown))
 
     checks = [
@@ -332,8 +332,8 @@ def _fallback_blog(topic: str, keyword: str, audience: str, website_url: str, so
         if source_url.strip()
         else "- No external source was supplied for this draft, so verify payer-specific details before publishing."
     )
-    markdown = textwrap.dedent(
-        f"""
+    markdown_template = textwrap.dedent(
+        """
         *Why does this keep turning into a Tuesday problem instead of a tidy policy question?*
 
         {website_cta}## TL;DR
@@ -377,6 +377,13 @@ def _fallback_blog(topic: str, keyword: str, audience: str, website_url: str, so
         ## Sources / Further Reading
         {sources_line}
         """
+    )
+    markdown = markdown_template.format(
+        website_cta=website_cta,
+        points=points,
+        topic=topic,
+        author_name=author_name,
+        sources_line=sources_line,
     ).strip()
 
     return BlogDraft(
@@ -454,12 +461,31 @@ def generate_blog_draft(
 
 
 def _fallback_extract_insights(topic: str, blog_title: str, blog_markdown: str) -> list[str]:
-    headings = [
-        line[3:].strip()
-        for line in blog_markdown.splitlines()
-        if line.strip().startswith("## ")
-    ]
-    candidates = headings[:MAX_INSIGHTS]
+    candidates: list[str] = []
+    current_heading = ""
+
+    for raw_line in blog_markdown.splitlines():
+        stripped = raw_line.strip()
+        if stripped.startswith("## "):
+            current_heading = stripped[3:].strip().lower()
+            continue
+
+        if current_heading in {"tl;dr", "actionable takeaways"} and stripped.startswith("- "):
+            candidates.append(stripped[2:].strip())
+            continue
+
+        numbered_match = re.match(r"^\d+\.\s+(.*)", stripped)
+        if numbered_match:
+            candidates.append(numbered_match.group(1).strip())
+
+    if len(candidates) < MIN_INSIGHTS:
+        headings = [
+            line.strip()[3:].strip()
+            for line in blog_markdown.splitlines()
+            if line.strip().startswith("## ") and line.strip()[3:].strip().lower() not in LANDING_SPECIAL_HEADINGS
+        ]
+        candidates.extend(headings)
+
     if not candidates:
         paragraphs = [line.strip() for line in blog_markdown.splitlines() if line.strip() and not line.strip().startswith("#")]
         candidates = paragraphs[:MAX_INSIGHTS]

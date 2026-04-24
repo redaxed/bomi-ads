@@ -36,6 +36,8 @@ def test_generate_blog_draft_fallback_returns_blog() -> None:
 
     assert blog.title
     assert blog.markdown.startswith("*")
+    assert "\n        ## " not in blog.markdown
+    assert "\n        1. " not in blog.markdown
     assert blog.slug
     readiness = assess_blog_readiness(
         title=blog.title,
@@ -44,7 +46,7 @@ def test_generate_blog_draft_fallback_returns_blog() -> None:
         categories=blog.categories,
         faq=blog.faq,
     )
-    assert readiness.passed_checks >= 10
+    assert readiness.is_publish_ready
 
 
 def test_extract_blog_insights_fallback_is_bounded() -> None:
@@ -65,6 +67,33 @@ def test_extract_blog_insights_fallback_is_bounded() -> None:
     assert 3 <= len(insights) <= 5
     assert insights[0] == "First idea"
     assert "Sixth idea" not in insights
+
+
+def test_extract_blog_insights_fallback_prefers_actual_points_over_headings() -> None:
+    markdown = "\n".join(
+        [
+            "*Subtitle*",
+            "## TL;DR",
+            "- Name the owner before the payer clock starts.",
+            "- Track missing documents weekly instead of when claims fail.",
+            "- Turn enrollment status into one visible queue.",
+            "## The thesis",
+            "This heading should not become an insight.",
+            "## Actionable Takeaways",
+            "- Audit the oldest stuck applications.",
+            "- Assign a single follow-up owner.",
+        ]
+    )
+    with patch.dict(os.environ, {}, clear=True):
+        insights = extract_blog_insights("Topic", "Sample", markdown, AUTHOR)
+
+    assert insights[:3] == [
+        "Name the owner before the payer clock starts.",
+        "Track missing documents weekly instead of when claims fail.",
+        "Turn enrollment status into one visible queue.",
+    ]
+    assert "TL;DR" not in insights
+    assert "The thesis" not in insights
 
 
 def test_generate_social_drafts_creates_one_per_insight_per_surface() -> None:

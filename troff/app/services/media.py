@@ -17,6 +17,10 @@ class MediaError(RuntimeError):
     pass
 
 
+STATIC_ROOT = Path(__file__).resolve().parents[1] / "static"
+DEFAULT_CARD_OUTPUT_DIR = STATIC_ROOT / "generated" / "cards"
+
+
 def _card_style() -> tuple[tuple[int, int, int], tuple[int, int, int]]:
     bg_hex = os.getenv("CARD_BG_HEX", "#0F172A")
     fg_hex = os.getenv("CARD_FG_HEX", "#F8FAFC")
@@ -30,7 +34,7 @@ def _card_style() -> tuple[tuple[int, int, int], tuple[int, int, int]]:
     return _hex_to_rgb(bg_hex), _hex_to_rgb(fg_hex)
 
 
-def render_text_card(text: str, output_dir: str = "/data/generated/cards") -> Path:
+def render_text_card(text: str, output_dir: str | None = None) -> Path:
     bg_color, fg_color = _card_style()
     width = int(os.getenv("CARD_WIDTH", "1080"))
     height = int(os.getenv("CARD_HEIGHT", "1080"))
@@ -48,11 +52,19 @@ def render_text_card(text: str, output_dir: str = "/data/generated/cards") -> Pa
     y = max(40, (height - text_height) // 2)
     draw.multiline_text((x, y), wrapped, fill=fg_color, font=font, spacing=10, align="left")
 
-    output = Path(output_dir)
+    output = Path(output_dir or os.getenv("MEDIA_CARD_OUTPUT_DIR", str(DEFAULT_CARD_OUTPUT_DIR)))
     output.mkdir(parents=True, exist_ok=True)
     path = output / f"card-{uuid.uuid4().hex}.png"
     image.save(path, format="PNG")
     return path
+
+
+def _local_static_url(path: Path) -> str:
+    try:
+        rel_path = path.resolve().relative_to(STATIC_ROOT.resolve())
+    except ValueError:
+        return ""
+    return f"/static/{rel_path.as_posix()}"
 
 
 def upload_to_gcs(path: Path, object_prefix: str = "troff/cards") -> str:
@@ -86,4 +98,4 @@ def build_asset_url_for_point(point_text: str) -> str:
     public_media_base = os.getenv("PUBLIC_MEDIA_BASE_URL", "").rstrip("/")
     if public_media_base:
         return f"{public_media_base}/{card.name}"
-    return ""
+    return _local_static_url(card)
