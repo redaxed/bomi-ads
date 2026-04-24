@@ -7,6 +7,7 @@ Scripts and notes for managing Bomi Google Ads without hand-building everything 
 - `google-ads-scripts/` - JavaScript files to paste into Google Ads > Tools > Bulk actions > Scripts.
 - `scripts/` - local terminal scripts that call the Google Ads API.
 - `docs/` - setup notes, campaign audit findings, and clone prep notes.
+- `reports/` - dated ads report artifacts.
 - `.env.example` - local environment template. Copy it to `.env`; never commit real secrets.
 
 ## Current status

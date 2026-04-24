@@ -142,3 +142,7 @@ Post-create verification confirmed:
 - Business name and business logo assets are attached.
 - Harmonic keywords were excluded.
 - State Medicaid provider-intent keywords and broad negatives were created.
+
+### Source of truth cleanup
+
+The local `/Users/dax/bomi/bomi-ads` checkout became the source of truth for ads automation. The real ignored `.env` was copied into that repo, the dated report artifact was preserved under `reports/`, and the old top-level `/Users/dax/bomi/ads` folder was retired.
