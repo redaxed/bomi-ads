@@ -74,6 +74,10 @@ It also handles:
 - Required EU political advertising declaration.
 - Existing exemptible policy keys for third-party-support-related keywords in the source campaign.
 - State copy replacement for Illinois/IL and the existing "Serving Illinois and Indiana practices" description.
+- Launch keyword cleanup:
+  - Excludes Harmonic Office Solutions keywords from state clones.
+  - Replaces broad `illinois medicaid` with provider-intent Medicaid keywords per state.
+  - Adds broad negatives for consumer/government Medicaid terms.
 
 ### Validation
 
@@ -110,3 +114,31 @@ Initial commit:
 ```
 
 The repo was then reorganized so Google Ads UI scripts live in `google-ads-scripts/`, terminal scripts live in `scripts/`, and documentation lives in `docs/`.
+
+### Campaign creation
+
+After the keyword cleanup was added, validation was run again:
+
+```text
+VALIDATE ONLY: Ohio ... operations: 44 ... {}
+VALIDATE ONLY: Indiana ... operations: 44 ... {}
+```
+
+Then the API script was run with `--apply`.
+
+Created paused campaigns:
+
+- Ohio: `23783665086` / `schedule meeting - Ohio 1777010295580`
+- Indiana: `23793592462` / `schedule meeting - Indiana 1777010299107`
+
+Post-create verification confirmed:
+
+- Both campaigns are paused.
+- Each has a `$15/day` copied budget.
+- Ohio targets `geoTargetConstants/21168` / Ohio.
+- Indiana targets `geoTargetConstants/21148` / Indiana.
+- Ads are paused and point to the correct state landing pages.
+- Sitelinks are enabled and point to the correct target-state URL anchors.
+- Business name and business logo assets are attached.
+- Harmonic keywords were excluded.
+- State Medicaid provider-intent keywords and broad negatives were created.

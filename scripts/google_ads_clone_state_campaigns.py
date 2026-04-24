@@ -52,6 +52,35 @@ KEYWORD_POLICY_EXEMPTIONS = {
     ],
 }
 
+EXCLUDED_SOURCE_KEYWORD_PATTERNS = [
+    r"\bharmonic office solutions\b",
+]
+
+STATE_KEYWORD_REPLACEMENTS = {
+    "illinois medicaid": {
+        "Ohio": [
+            "ohio medicaid therapist billing",
+            "ohio medicaid credentialing",
+            "ohio medicaid provider enrollment",
+        ],
+        "Indiana": [
+            "indiana medicaid therapist billing",
+            "indiana medicaid credentialing",
+            "indiana medicaid provider enrollment",
+        ],
+    }
+}
+
+STATE_CLONE_NEGATIVE_KEYWORDS = [
+    "pregnant",
+    "apply",
+    "office",
+    "phone number",
+    "eligibility",
+    "portal",
+    "gov",
+]
+
 
 class GoogleAdsError(RuntimeError):
     pass
@@ -475,6 +504,20 @@ def text_asset_list(assets: list[dict[str, Any]], state: str) -> list[dict[str, 
     return result
 
 
+def should_skip_source_keyword(text: str) -> bool:
+    return any(
+        re.search(pattern, text, flags=re.IGNORECASE)
+        for pattern in EXCLUDED_SOURCE_KEYWORD_PATTERNS
+    )
+
+
+def target_keyword_texts(source_text: str, state: str) -> list[str]:
+    replacement = STATE_KEYWORD_REPLACEMENTS.get(source_text.lower())
+    if replacement:
+        return replacement.get(state, [replace_state_text(source_text, state)])
+    return [replace_state_text(source_text, state)]
+
+
 def landing_page_variant(url: str, landing_page: str) -> str:
     parsed = urllib.parse.urlsplit(url)
     target = urllib.parse.urlsplit(landing_page)
@@ -583,25 +626,47 @@ def create_operations_for_state(
         criterion = row["adGroupCriterion"]
         ad_group_id = row["adGroup"]["id"]
         keyword = criterion.get("keyword", {})
-        create = {
-            "adGroup": (
-                f"customers/{credentials.customer_id}/adGroups/"
-                f"{temp_id_by_ad_group_id[ad_group_id]}"
-            ),
-            "status": criterion.get("status", "ENABLED"),
-            "negative": criterion.get("negative", False),
-            "keyword": {
-                "text": replace_state_text(keyword["text"], state),
-                "matchType": keyword.get("matchType", "PHRASE"),
-            },
-        }
-        if "cpcBidMicros" in criterion:
-            create["cpcBidMicros"] = criterion["cpcBidMicros"]
-        operation: dict[str, Any] = {"create": create}
-        exemptions = KEYWORD_POLICY_EXEMPTIONS.get(keyword["text"])
-        if exemptions:
-            operation["exemptPolicyViolationKeys"] = exemptions
-        operations.append({"adGroupCriterionOperation": operation})
+        source_keyword_text = keyword["text"]
+        if should_skip_source_keyword(source_keyword_text):
+            continue
+        for target_keyword_text in target_keyword_texts(source_keyword_text, state):
+            create = {
+                "adGroup": (
+                    f"customers/{credentials.customer_id}/adGroups/"
+                    f"{temp_id_by_ad_group_id[ad_group_id]}"
+                ),
+                "status": criterion.get("status", "ENABLED"),
+                "negative": criterion.get("negative", False),
+                "keyword": {
+                    "text": target_keyword_text,
+                    "matchType": keyword.get("matchType", "PHRASE"),
+                },
+            }
+            if "cpcBidMicros" in criterion:
+                create["cpcBidMicros"] = criterion["cpcBidMicros"]
+            operation: dict[str, Any] = {"create": create}
+            exemptions = KEYWORD_POLICY_EXEMPTIONS.get(source_keyword_text)
+            if exemptions:
+                operation["exemptPolicyViolationKeys"] = exemptions
+            operations.append({"adGroupCriterionOperation": operation})
+
+    for ad_group in ad_groups:
+        ad_group_temp_id = temp_id_by_ad_group_id[ad_group["id"]]
+        for negative_text in STATE_CLONE_NEGATIVE_KEYWORDS:
+            operations.append(
+                {
+                    "adGroupCriterionOperation": {
+                        "create": {
+                            "adGroup": f"customers/{credentials.customer_id}/adGroups/{ad_group_temp_id}",
+                            "negative": True,
+                            "keyword": {
+                                "text": negative_text,
+                                "matchType": "BROAD",
+                            },
+                        }
+                    }
+                }
+            )
 
     for row in ads:
         ad_group_id = row["adGroup"]["id"]

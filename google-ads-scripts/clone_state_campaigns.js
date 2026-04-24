@@ -39,6 +39,35 @@ const KEYWORD_POLICY_EXEMPTIONS = {
   ],
 };
 
+const EXCLUDED_SOURCE_KEYWORD_PATTERNS = [
+  /\bharmonic office solutions\b/i,
+];
+
+const STATE_KEYWORD_REPLACEMENTS = {
+  'illinois medicaid': {
+    Ohio: [
+      'ohio medicaid therapist billing',
+      'ohio medicaid credentialing',
+      'ohio medicaid provider enrollment',
+    ],
+    Indiana: [
+      'indiana medicaid therapist billing',
+      'indiana medicaid credentialing',
+      'indiana medicaid provider enrollment',
+    ],
+  },
+};
+
+const STATE_CLONE_NEGATIVE_KEYWORDS = [
+  'pregnant',
+  'apply',
+  'office',
+  'phone number',
+  'eligibility',
+  'portal',
+  'gov',
+];
+
 function main() {
   const customerId = AdsApp.currentAccount().getCustomerId().replace(/-/g, '');
   const sourceCampaign = getSourceCampaign_();
@@ -285,23 +314,45 @@ function buildOperationsForTarget_(context) {
   keywords.forEach((row) => {
     const criterion = row.adGroupCriterion;
     const keyword = criterion.keyword;
-    const create = {
-      adGroup: `customers/${customerId}/adGroups/${adGroupTempIds[row.adGroup.id]}`,
-      status: criterion.status || 'ENABLED',
-      negative: Boolean(criterion.negative),
-      keyword: {
-        text: replaceStateText_(keyword.text, target),
-        matchType: keyword.matchType || 'PHRASE',
-      },
-    };
-    if (criterion.cpcBidMicros) {
-      create.cpcBidMicros = criterion.cpcBidMicros;
+    if (shouldSkipSourceKeyword_(keyword.text)) {
+      return;
     }
-    const operation = { create };
-    if (KEYWORD_POLICY_EXEMPTIONS[keyword.text]) {
-      operation.exemptPolicyViolationKeys = KEYWORD_POLICY_EXEMPTIONS[keyword.text];
-    }
-    operations.push({ adGroupCriterionOperation: operation });
+    targetKeywordTexts_(keyword.text, target).forEach((targetKeywordText) => {
+      const create = {
+        adGroup: `customers/${customerId}/adGroups/${adGroupTempIds[row.adGroup.id]}`,
+        status: criterion.status || 'ENABLED',
+        negative: Boolean(criterion.negative),
+        keyword: {
+          text: targetKeywordText,
+          matchType: keyword.matchType || 'PHRASE',
+        },
+      };
+      if (criterion.cpcBidMicros) {
+        create.cpcBidMicros = criterion.cpcBidMicros;
+      }
+      const operation = { create };
+      if (KEYWORD_POLICY_EXEMPTIONS[keyword.text]) {
+        operation.exemptPolicyViolationKeys = KEYWORD_POLICY_EXEMPTIONS[keyword.text];
+      }
+      operations.push({ adGroupCriterionOperation: operation });
+    });
+  });
+
+  adGroups.forEach((adGroup) => {
+    STATE_CLONE_NEGATIVE_KEYWORDS.forEach((negativeText) => {
+      operations.push({
+        adGroupCriterionOperation: {
+          create: {
+            adGroup: `customers/${customerId}/adGroups/${adGroupTempIds[adGroup.id]}`,
+            negative: true,
+            keyword: {
+              text: negativeText,
+              matchType: 'BROAD',
+            },
+          },
+        },
+      });
+    });
   });
 
   ads.forEach((row) => {
@@ -393,6 +444,18 @@ function textAssets_(assets, target) {
     }
     return copied;
   });
+}
+
+function shouldSkipSourceKeyword_(text) {
+  return EXCLUDED_SOURCE_KEYWORD_PATTERNS.some((pattern) => pattern.test(text));
+}
+
+function targetKeywordTexts_(sourceText, target) {
+  const replacement = STATE_KEYWORD_REPLACEMENTS[sourceText.toLowerCase()];
+  if (replacement) {
+    return replacement[target.state] || [replaceStateText_(sourceText, target)];
+  }
+  return [replaceStateText_(sourceText, target)];
 }
 
 function replaceStateText_(value, target) {

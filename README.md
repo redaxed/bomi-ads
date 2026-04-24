@@ -11,9 +11,14 @@ Scripts and notes for managing Bomi Google Ads without hand-building everything 
 
 ## Current status
 
-We have working Google Ads API access for the Bomi account through local credentials, and we validated the Ohio/Indiana clone in Google Ads API `validateOnly` mode.
+We have working Google Ads API access for the Bomi account through local credentials.
 
-No Ohio or Indiana campaigns have been created yet.
+Ohio and Indiana campaigns have been created from the `schedule meeting` source campaign. They were created paused and should be reviewed in Google Ads before enabling.
+
+Created campaigns:
+
+- Ohio: `23783665086` / `schedule meeting - Ohio 1777010295580`
+- Indiana: `23793592462` / `schedule meeting - Indiana 1777010299107`
 
 See [docs/WORK_LOG.md](docs/WORK_LOG.md) for the narrative of what has been done so far, and [docs/CLONE_PREP.md](docs/CLONE_PREP.md) for the exact account audit and clone plan.
 
@@ -91,4 +96,4 @@ node --check google-ads-scripts/audit_state_campaigns.js
 node --check google-ads-scripts/clone_state_campaigns.js
 ```
 
-Google Ads API validation last passed for both Ohio and Indiana in `validateOnly` mode.
+Google Ads API validation passed for both Ohio and Indiana in `validateOnly` mode before the paused campaigns were created.

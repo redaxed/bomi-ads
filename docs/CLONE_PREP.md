@@ -2,7 +2,7 @@
 
 Prepared on 2026-04-24 using Google Ads API `v24`.
 
-No campaigns were created during prep. All clone checks were run with `validateOnly`.
+During prep, clone checks were run with `validateOnly`. The campaigns were later created paused after validation.
 
 ## Account
 
@@ -63,7 +63,10 @@ The API script prepares, per target state:
 - 1 new Search campaign, created paused
 - State-level location targeting
 - 1 ad group copied from source
-- 19 keywords copied from source, with Illinois/IL rewritten to target state
+- Keywords copied from source, with Illinois/IL rewritten to target state
+- Harmonic Office Solutions keywords excluded from the clones
+- `illinois medicaid` replaced with provider-intent Medicaid keywords for each target state
+- Broad negatives added for consumer/government Medicaid traffic: `pregnant`, `apply`, `office`, `phone number`, `eligibility`, `portal`, `gov`
 - 1 responsive search ad copied from source, created paused
 - 8 unique campaign assets copied/attached:
   - Sitelinks are recreated with target-state URLs and state text updates
@@ -84,11 +87,11 @@ python3 scripts/google_ads_clone_state_campaigns.py --source-campaign-id 2358665
 
 Google returned `{}` for both target mutations in validate-only mode.
 
-No campaigns were created.
+No campaigns were created during validation.
 
-## Apply command
+## Created campaigns
 
-This creates paused Ohio and Indiana campaigns:
+The apply command was run after validation:
 
 ```sh
 set -a
@@ -97,4 +100,24 @@ set +a
 python3 scripts/google_ads_clone_state_campaigns.py --source-campaign-id 23586656126 --apply
 ```
 
-After applying, review the new campaigns in Google Ads before enabling them.
+Created paused campaigns:
+
+- Ohio: `23783665086` / `schedule meeting - Ohio 1777010295580`
+- Indiana: `23793592462` / `schedule meeting - Indiana 1777010299107`
+
+Post-create verification:
+
+- Both campaigns are `PAUSED`
+- Both budgets are `$15/day`
+- Ohio targets `Ohio, United States`
+- Indiana targets `Indiana, United States`
+- Ads are paused and point to the state landing pages:
+  - `https://billwithbomi.com/ohio`
+  - `https://billwithbomi.com/indiana`
+- Ad copy was rewritten for each state, including `Free Credentialing (OH/IN)` and state-specific descriptions
+- Sitelinks point to target-state URL anchors, including pricing, booking, credentialing, EHR, included, and Medicare/Medicaid sections
+- Business name and business logo assets are attached
+- Harmonic keywords are not present in the cloned campaigns
+- Provider-intent Medicaid keywords and broad negatives are present
+
+Review the new campaigns in Google Ads before enabling them.
