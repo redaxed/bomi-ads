@@ -2,7 +2,7 @@
 
 Prepared on 2026-04-24 using Google Ads API `v24`.
 
-During prep, clone checks were run with `validateOnly`. The campaigns were later created paused after validation.
+During prep, clone checks were run with `validateOnly`. The campaigns were later created paused after validation, reviewed in Google Ads, and enabled on 2026-04-24.
 
 ## Account
 
@@ -120,4 +120,4 @@ Post-create verification:
 - Harmonic keywords are not present in the cloned campaigns
 - Provider-intent Medicaid keywords and broad negatives are present
 
-Review the new campaigns in Google Ads before enabling them.
+After review, the new campaigns were enabled in Google Ads. A later live API reporting pull confirmed both Ohio and Indiana currently report `ENABLED`.

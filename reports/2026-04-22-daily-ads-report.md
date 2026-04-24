@@ -1,57 +1,65 @@
 # Daily Ads Report - 2026-04-22
 
-Source: Google Ads API REST via local `.env` credentials (attempted; blocked before data retrieval)
-Account: Bomi Health, Inc. / `561-309-1482`
+Source: Google Ads API REST via local `.env` credentials
+Credential file: `/Users/dax/bomi/bomi-ads/.env`
+Generated: 2026-04-24T00:39:24-07:00
+Account: Bomi Health, Inc. / `5613091482`
 Timezone: America/Los_Angeles
 Primary window: 2026-04-22
-Comparisons: prior day 2026-04-21; same weekday last week 2026-04-15; last 7 full days 2026-04-16 through 2026-04-22
-Data freshness: Live API access attempted at 2026-04-23 23:09 PDT / 2026-04-24 06:09 UTC. OAuth token refresh failed locally with DNS error `URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>`, so no Google Ads metrics were returned.
 
 ## Executive Readout
 
-No live performance readout is available for 2026-04-22. The automation could not resolve `oauth2.googleapis.com` from the terminal, so spend, clicks, conversions, CPA, pacing, search terms, and campaign-level changes cannot be verified. Treat this report as a data-access blocker, not a performance assessment.
+Primary-day spend was $43.96 on 7 clicks and 1.00 conversions, for a blended CPA of $43.96.
 
 ## Scorecard
 
-| Metric | Primary period | Vs prior day | Vs same weekday last week | Last 7 days |
-| --- | ---: | ---: | ---: | ---: |
-| Cost | Unavailable | Unavailable | Unavailable | Unavailable |
-| Impressions | Unavailable | Unavailable | Unavailable | Unavailable |
-| Clicks | Unavailable | Unavailable | Unavailable | Unavailable |
-| CTR | Unavailable | Unavailable | Unavailable | Unavailable |
-| Avg CPC | Unavailable | Unavailable | Unavailable | Unavailable |
-| Conversions | Unavailable | Unavailable | Unavailable | Unavailable |
-| Conversion rate | Unavailable | Unavailable | Unavailable | Unavailable |
-| Cost / conversion | Unavailable | Unavailable | Unavailable | Unavailable |
-| Conversion value / ROAS | Unavailable | Unavailable | Unavailable | Unavailable |
+| Window | Cost | Impressions | Clicks | CTR | Avg CPC | Conversions | CPA |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Primary day | $43.96 | 222 | 7 | 3.15% | $6.28 | 1.00 | $43.96 |
+| Prior day | $51.34 | 65 | 7 | 10.77% | $7.33 | 0.00 | $0.00 |
+| Same weekday last week | $66.75 | 281 | 15 | 5.34% | $4.45 | 1.00 | $66.69 |
+| Last 7 full days | $299.74 | 1,295 | 80 | 6.18% | $3.75 | 9.00 | $33.31 |
 
 ## Campaigns
 
-| Campaign | Status | Budget | Cost | Clicks | Conversions | CPA | Notes |
-| --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| `schedule meeting` | Last locally verified enabled | $15.00/day | Unavailable | Unavailable | Unavailable | Unavailable | Last verified in local prep notes from 2026-04-24; daily performance not refreshed. |
-| `General Bomi Leads` | Last locally verified enabled | $25.00/day | Unavailable | Unavailable | Unavailable | Unavailable | Last verified in local prep notes from 2026-04-24; daily performance not refreshed. |
+| Campaign | Status | Budget | Cost | Clicks | Impressions | Conversions | CPA |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `General Bomi Leads` | ENABLED | $25.00 | $28.29 | 3 | 211 | 0.00 | $0.00 |
+| `schedule meeting` | ENABLED | $15.00 | $15.67 | 4 | 11 | 1.00 | $15.67 |
+| `schedule meeting - Indiana 1777010299107` | ENABLED | $15.00 | $0.00 | 0 | 0 | 0.00 | $0.00 |
+| `schedule meeting - Ohio 1777010295580` | ENABLED | $15.00 | $0.00 | 0 | 0 | 0.00 | $0.00 |
 
-## What Changed
+## Search Terms
 
-- No campaign, spend, conversion, CPA, or search-term change can be verified because the live API request failed before Google Ads returned data.
-- The blocker is unchanged from the prior automation run: local terminal DNS/network access cannot resolve Google OAuth endpoints.
-- The intended comparison windows for the next successful run are 2026-04-22 vs 2026-04-21, 2026-04-15, and 2026-04-16 through 2026-04-22.
+| Campaign | Search term | Cost | Clicks | Impressions | Conversions | CPA |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| `General Bomi Leads` | `credentialing specialist` | $11.91 | 1 | 3 | 0.00 | $0.00 |
+| `General Bomi Leads` | `adelfi medical billing solutions` | $8.63 | 1 | 2 | 0.00 | $0.00 |
+| `General Bomi Leads` | `pf ki kyc` | $7.75 | 1 | 2 | 0.00 | $0.00 |
+| `schedule meeting` | `medical billing services` | $2.74 | 1 | 1 | 0.00 | $0.00 |
+| `schedule meeting` | `omni medical billing` | $2.60 | 1 | 1 | 0.00 | $0.00 |
+| `General Bomi Leads` | `aba credentialing` | $0.00 | 0 | 1 | 0.00 | $0.00 |
+| `General Bomi Leads` | `admirra` | $0.00 | 0 | 1 | 0.00 | $0.00 |
+| `General Bomi Leads` | `ambiki` | $0.00 | 0 | 1 | 0.00 | $0.00 |
+| `General Bomi Leads` | `amerihealth provider portal` | $0.00 | 0 | 1 | 0.00 | $0.00 |
+| `General Bomi Leads` | `can an lsw bill insurance` | $0.00 | 0 | 1 | 0.00 | $0.00 |
+| `General Bomi Leads` | `claimtek systems reviews` | $0.00 | 0 | 1 | 0.00 | $0.00 |
+| `General Bomi Leads` | `cloud rcm solutions` | $0.00 | 0 | 1 | 0.00 | $0.00 |
+| `General Bomi Leads` | `cloudrcm solutions` | $0.00 | 0 | 1 | 0.00 | $0.00 |
+| `General Bomi Leads` | `cms medicare claims processing manual` | $0.00 | 0 | 1 | 0.00 | $0.00 |
+| `General Bomi Leads` | `codify cpt codes` | $0.00 | 0 | 1 | 0.00 | $0.00 |
+| `General Bomi Leads` | `coronis health` | $0.00 | 0 | 1 | 0.00 | $0.00 |
+| `General Bomi Leads` | `credentialing` | $0.00 | 0 | 2 | 0.00 | $0.00 |
+| `General Bomi Leads` | `credentialing specialist near me` | $0.00 | 0 | 2 | 0.00 | $0.00 |
+| `General Bomi Leads` | `credentialling` | $0.00 | 0 | 2 | 0.00 | $0.00 |
+| `General Bomi Leads` | `credex healthcare` | $0.00 | 0 | 3 | 0.00 | $0.00 |
+| `General Bomi Leads` | `expert medical billing` | $0.00 | 0 | 1 | 0.00 | $0.00 |
+| `General Bomi Leads` | `how do i get an npi number` | $0.00 | 0 | 1 | 0.00 | $0.00 |
+| `General Bomi Leads` | `how to get credentialed with medicaid` | $0.00 | 0 | 2 | 0.00 | $0.00 |
+| `General Bomi Leads` | `how to get credentialed with medicare` | $0.00 | 0 | 2 | 0.00 | $0.00 |
+| `General Bomi Leads` | `how to get in network with medicare` | $0.00 | 0 | 1 | 0.00 | $0.00 |
 
-## Watchlist
+## Notes
 
-- Live reporting is blocked until the terminal can resolve `oauth2.googleapis.com` and then reach `googleads.googleapis.com`.
-- Daily spend pacing cannot be confirmed against the last verified enabled daily budgets of $15.00/day and $25.00/day.
-- Search-term waste, conversion tracking, budget-limited status, policy-limited status, and rank/budget lost impression share could not be checked.
-
-## Recommended Actions
-
-1. Restore terminal DNS/network access for `oauth2.googleapis.com` and `googleads.googleapis.com`, then rerun the daily report for 2026-04-22.
-2. If terminal API access will remain unavailable, export Google Ads data for 2026-04-15 through 2026-04-22 with campaign, ad group, search term, cost, impressions, clicks, conversions, conversion value, status, budget, and impression-share columns.
-3. Do not make budget, bid, keyword, or campaign changes from this report alone; no live performance data was retrieved.
-
-## Data Notes
-
-- This report uses the previous full calendar day in the account timezone: 2026-04-22 America/Los_Angeles.
-- The local workspace identifies the account timezone as America/Los_Angeles and the customer as Bomi Health, Inc. / `561-309-1482`.
-- Last locally verified campaign context comes from `docs/CLONE_PREP.md`; it is not a substitute for live daily metrics.
+- Campaign status in the table is the current API status; metrics are for the selected report window.
+- Ohio and Indiana state clone campaigns were created paused, then enabled after review on 2026-04-24.

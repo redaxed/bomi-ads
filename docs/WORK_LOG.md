@@ -143,6 +143,17 @@ Post-create verification confirmed:
 - Harmonic keywords were excluded.
 - State Medicaid provider-intent keywords and broad negatives were created.
 
+### Campaign enablement
+
+After review in Google Ads, the Ohio and Indiana cloned campaigns were enabled on 2026-04-24.
+
+A live Google Ads API reporting pull later confirmed both state clones currently report `ENABLED`:
+
+- Ohio: `23783665086` / `schedule meeting - Ohio 1777010295580`
+- Indiana: `23793592462` / `schedule meeting - Indiana 1777010299107`
+
+Daily report campaign status reflects the current API campaign state. Metrics still reflect the selected report window.
+
 ### Source of truth cleanup
 
 The local `/Users/dax/bomi/bomi-ads` checkout became the source of truth for ads automation. The real ignored `.env` was copied into that repo, the dated report artifact was preserved under `reports/`, and the old top-level `/Users/dax/bomi/ads` folder was retired.
