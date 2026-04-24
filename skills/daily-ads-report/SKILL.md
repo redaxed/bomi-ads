@@ -4,7 +4,7 @@ Use this skill to create Bomi's daily Google Ads report.
 
 ## Workflow
 
-1. Run from the `bomi-ads` checkout or a Codex automation worktree for `bomi-ads`.
+1. Run from the local `bomi-ads` checkout at `/Users/dax/bomi/bomi-ads`. Keep the Codex cron automation on `execution_environment = local`; worktree mode has failed DNS and GitHub push access on this machine.
 2. Use the previous full calendar day in the Google Ads account timezone.
 3. Generate a report comparing:
    - Primary day
