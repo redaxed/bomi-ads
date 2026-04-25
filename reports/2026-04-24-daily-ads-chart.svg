@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="640" viewBox="0 0 940 640">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#111827}.muted{fill:#6b7280}.label{font-size:14px}.title{font-size:24px;font-weight:700}.section{font-size:16px;font-weight:700}</style>
+<text x="32" y="42" class="title">Google Ads report - 2026-04-24</text>
+<text x="32" y="66" class="muted label">Comparison windows: primary, prior day, same weekday last week, and trailing 7 full days</text>
+<text x="32" y="92" class="section">Spend</text>
+<text x="32" y="131" class="label">Primary day</text>
+<rect x="235" y="116" width="555" height="22" rx="4" fill="#eef2ff"/>
+<rect x="235" y="116" width="67.9" height="22" rx="4" fill="#2563eb"/>
+<text x="808" y="132" class="label">$36.99</text>
+<text x="32" y="169" class="label">Prior day</text>
+<rect x="235" y="154" width="555" height="22" rx="4" fill="#eef2ff"/>
+<rect x="235" y="154" width="86.5" height="22" rx="4" fill="#2563eb"/>
+<text x="808" y="170" class="label">$47.13</text>
+<text x="32" y="207" class="label">Same weekday last week</text>
+<rect x="235" y="192" width="555" height="22" rx="4" fill="#eef2ff"/>
+<rect x="235" y="192" width="64.3" height="22" rx="4" fill="#2563eb"/>
+<text x="808" y="208" class="label">$35.07</text>
+<text x="32" y="245" class="label">Last 7 full days</text>
+<rect x="235" y="230" width="555" height="22" rx="4" fill="#eef2ff"/>
+<rect x="235" y="230" width="555.0" height="22" rx="4" fill="#2563eb"/>
+<text x="808" y="246" class="label">$302.52</text>
+<text x="32" y="268" class="section">Clicks</text>
+<text x="32" y="307" class="label">Primary day</text>
+<rect x="235" y="292" width="555" height="22" rx="4" fill="#eef2ff"/>
+<rect x="235" y="292" width="115.3" height="22" rx="4" fill="#059669"/>
+<text x="808" y="308" class="label">16</text>
+<text x="32" y="345" class="label">Prior day</text>
+<rect x="235" y="330" width="555" height="22" rx="4" fill="#eef2ff"/>
+<rect x="235" y="330" width="57.7" height="22" rx="4" fill="#059669"/>
+<text x="808" y="346" class="label">8</text>
+<text x="32" y="383" class="label">Same weekday last week</text>
+<rect x="235" y="368" width="555" height="22" rx="4" fill="#eef2ff"/>
+<rect x="235" y="368" width="108.1" height="22" rx="4" fill="#059669"/>
+<text x="808" y="384" class="label">15</text>
+<text x="32" y="421" class="label">Last 7 full days</text>
+<rect x="235" y="406" width="555" height="22" rx="4" fill="#eef2ff"/>
+<rect x="235" y="406" width="555.0" height="22" rx="4" fill="#059669"/>
+<text x="808" y="422" class="label">77</text>
+<text x="32" y="444" class="section">Conversions</text>
+<text x="32" y="483" class="label">Primary day</text>
+<rect x="235" y="468" width="555" height="22" rx="4" fill="#eef2ff"/>
+<rect x="235" y="468" width="185.0" height="22" rx="4" fill="#d97706"/>
+<text x="808" y="484" class="label">2.00</text>
+<text x="32" y="521" class="label">Prior day</text>
+<rect x="235" y="506" width="555" height="22" rx="4" fill="#eef2ff"/>
+<rect x="235" y="506" width="0.0" height="22" rx="4" fill="#d97706"/>
+<text x="808" y="522" class="label">0.00</text>
+<text x="32" y="559" class="label">Same weekday last week</text>
+<rect x="235" y="544" width="555" height="22" rx="4" fill="#eef2ff"/>
+<rect x="235" y="544" width="185.0" height="22" rx="4" fill="#d97706"/>
+<text x="808" y="560" class="label">2.00</text>
+<text x="32" y="597" class="label">Last 7 full days</text>
+<rect x="235" y="582" width="555" height="22" rx="4" fill="#eef2ff"/>
+<rect x="235" y="582" width="555.0" height="22" rx="4" fill="#d97706"/>
+<text x="808" y="598" class="label">6.00</text>
+</svg>
