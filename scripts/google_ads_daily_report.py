@@ -467,14 +467,17 @@ def campaign_status_note(rows: list[dict[str, Any]]) -> str:
     state_rows = [
         row
         for row in rows
-        if " - Ohio " in row["name"] or " - Indiana " in row["name"]
+        if any(
+            marker in row["name"]
+            for marker in [" - Ohio ", " - Indiana ", " - New Mexico "]
+        )
     ]
     if not state_rows:
-        return "Ohio/Indiana state clones were not present in this report window."
+        return "State clone campaigns were not present in this report window."
     enabled = [row for row in state_rows if row["status"] == "ENABLED"]
     spend = sum(row["cost"] for row in state_rows)
     if len(enabled) == len(state_rows):
-        return f"Ohio/Indiana clones are ENABLED with {fmt_money(spend)} spend in this window."
+        return f"State clone campaigns are ENABLED with {fmt_money(spend)} spend in this window."
     statuses = ", ".join(f"{row['name']}: {row['status']}" for row in state_rows)
     return f"State clone statuses: {statuses}."
 
@@ -616,6 +619,7 @@ Primary-day spend was {fmt_money(primary_totals['cost'])} on {fmt_int(primary_to
 
 - Campaign status in the table is the current API status; metrics are for the selected report window.
 - Ohio and Indiana state clone campaigns were created paused, then enabled after review on 2026-04-24.
+- New Mexico state clone campaign was created paused, then enabled after landing page deployment on 2026-04-25.
 - Slack-ready summary: [{live.report_date.isoformat()} daily ads Slack summary]({live.report_date.isoformat()}-daily-ads-slack.md)
 - Raw chart URL: {urls['chart']}
 """

@@ -1,4 +1,4 @@
-# Ohio and Indiana Google Ads clone prep
+# State Google Ads clone prep
 
 Prepared on 2026-04-24 using Google Ads API `v24`.
 
@@ -54,8 +54,9 @@ Source campaign:
 
 Targets:
 
-- Ohio: `https://billwithbomi.com/ohio`, geo target `geoTargetConstants/21168`
-- Indiana: `https://billwithbomi.com/indiana`, geo target `geoTargetConstants/21148`
+- Ohio: `https://www.billwithbomi.com/ohio`, geo target `geoTargetConstants/21168`
+- Indiana: `https://www.billwithbomi.com/indiana`, geo target `geoTargetConstants/21148`
+- New Mexico: `https://www.billwithbomi.com/new-mexico`, geo target `geoTargetConstants/21165`
 
 The API script prepares, per target state:
 
@@ -121,3 +122,33 @@ Post-create verification:
 - Provider-intent Medicaid keywords and broad negatives are present
 
 After review, the new campaigns were enabled in Google Ads. A later live API reporting pull confirmed both Ohio and Indiana currently report `ENABLED`.
+
+## New Mexico clone
+
+Prepared and created on 2026-04-25 from the same source campaign:
+
+```sh
+set -a
+source .env
+set +a
+python3 scripts/google_ads_clone_state_campaigns.py --source-campaign-id 23586656126 --target-state 'New Mexico=https://www.billwithbomi.com/new-mexico'
+```
+
+Google returned `{}` in validate-only mode for the New Mexico mutation.
+
+The apply command created:
+
+- New Mexico: `23786543262` / `schedule meeting - New Mexico 1777091221508`
+
+Post-create verification:
+
+- Campaign was created `PAUSED`, then enabled after the production landing page returned `200 OK`
+- Budget is `$15/day`
+- New Mexico targets `geoTargetConstants/21165`
+- Responsive search ad is `ENABLED`
+- Ad final URL is `https://www.billwithbomi.com/new-mexico`
+- Ad copy and credentialing sitelink use `NM`
+- Sitelinks point to New Mexico URL anchors
+- Business name and business logo assets are attached
+- Provider-intent New Mexico Medicaid keywords and broad negatives are present
+- Initial non-`www` ad and sitelink destinations were replaced with fresh canonical `www` destinations after Google reported stale `HTTP 404` destination checks from the deployment window

@@ -27,8 +27,8 @@ GOOGLE_ADS_BASE = f"https://googleads.googleapis.com/{API_VERSION}"
 OAUTH_TOKEN_URL = "https://oauth2.googleapis.com/token"
 
 DEFAULT_TARGETS = {
-    "Ohio": "https://billwithbomi.com/ohio",
-    "Indiana": "https://billwithbomi.com/indiana",
+    "Ohio": "https://www.billwithbomi.com/ohio",
+    "Indiana": "https://www.billwithbomi.com/indiana",
 }
 
 KEYWORD_POLICY_EXEMPTIONS = {
@@ -67,6 +67,11 @@ STATE_KEYWORD_REPLACEMENTS = {
             "indiana medicaid therapist billing",
             "indiana medicaid credentialing",
             "indiana medicaid provider enrollment",
+        ],
+        "New Mexico": [
+            "new mexico medicaid therapist billing",
+            "new mexico medicaid credentialing",
+            "new mexico medicaid provider enrollment",
         ],
     }
 }
@@ -446,7 +451,9 @@ def replace_state_text(value: str, state: str) -> str:
 
 
 def state_to_abbrev(state: str) -> str:
-    return {"Ohio": "OH", "Indiana": "IN"}.get(state, state[:2].upper())
+    return {"Ohio": "OH", "Indiana": "IN", "New Mexico": "NM"}.get(
+        state, state[:2].upper()
+    )
 
 
 def maybe_copy(source: dict[str, Any], keys: list[str]) -> dict[str, Any]:
@@ -770,7 +777,7 @@ def main() -> int:
         "--target-state",
         action="append",
         default=[],
-        help="Repeatable. Example: Ohio=https://billwithbomi.com/ohio",
+        help="Repeatable. Example: Ohio=https://www.billwithbomi.com/ohio",
     )
     parser.add_argument(
         "--apply",

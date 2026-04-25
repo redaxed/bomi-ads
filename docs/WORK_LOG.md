@@ -167,3 +167,63 @@ Daily report campaign status reflects the current API campaign state. Metrics st
 ### Source of truth cleanup
 
 The local `/Users/dax/bomi/bomi-ads` checkout became the source of truth for ads automation. The real ignored `.env` was copied into that repo, the dated report artifact was preserved under `reports/`, and the old top-level `/Users/dax/bomi/ads` folder was retired.
+
+## 2026-04-25
+
+### New Mexico expansion
+
+Created a New Mexico landing page in the sibling `/Users/dax/bomi/landing` repo:
+
+- Route: `https://www.billwithbomi.com/new-mexico`
+- Local route: `/new-mexico`
+- Added sitemap entry for `/new-mexico`
+- Added page-level tracking with `landing_page_id: new-mexico`
+
+Validated the Google Ads clone first:
+
+```text
+VALIDATE ONLY: New Mexico ... operations: 42 ... {}
+```
+
+Then created the paused campaign from source campaign `23586656126` / `schedule meeting`:
+
+- New Mexico: `23786543262` / `schedule meeting - New Mexico 1777091221508`
+- Budget: `$15/day`
+- Geo target: `geoTargetConstants/21165` / New Mexico
+- Final URL: `https://www.billwithbomi.com/new-mexico`
+- Initial campaign status: `PAUSED`
+- Initial responsive search ad status: `PAUSED`
+- Campaign assets: 8 attached, including sitelinks, business name, and business logo
+
+Post-create verification caught and corrected the default abbreviation fallback from `NE` to `NM` for New Mexico ad copy and the credentialing sitelink. The live paused campaign now has:
+
+- RSA headline: `Free Credentialing (NM)`
+- Sitelink: `Free Credentialing (NM)`
+- Provider-intent Medicaid keywords:
+  - `new mexico medicaid therapist billing`
+  - `new mexico medicaid credentialing`
+  - `new mexico medicaid provider enrollment`
+- Broad negatives retained: `pregnant`, `apply`, `office`, `phone number`, `eligibility`, `portal`, `gov`
+
+The local clone scripts were updated so future New Mexico clones use `NM` and provider-intent Medicaid keyword replacements.
+
+After the New Mexico landing page deployment returned `200 OK` on the production domain, the New Mexico campaign and responsive search ad were enabled through the Google Ads API.
+
+Launch verification:
+
+- Campaign status: `ENABLED`
+- Ad group status: `ENABLED`
+- Responsive search ad status: `ENABLED`
+- Budget: `$15/day`
+- Geo target: `geoTargetConstants/21165`
+- Final URL: `https://www.billwithbomi.com/new-mexico`
+
+After launch, Google Ads reported `DESTINATION_NOT_WORKING` / `HTTP 404` against the initial active ad and three sitelinks. The production page was returning `200 OK`, including Googlebot desktop and smartphone user agents, so the likely cause was stale policy review from the brief window before Vercel completed the production deployment. To force a clean review and avoid redirects, the active RSA and all sitelinks were replaced with fresh entities that use canonical `https://www.billwithbomi.com/new-mexico` URLs and anchored variants.
+
+Post-fix verification:
+
+- Campaign status: `ENABLED`
+- Ad group status: `ENABLED`
+- Active responsive search ad status: `ENABLED`
+- Active ad policy summary: `UNKNOWN` pending fresh review, with no `DESTINATION_NOT_WORKING` policy topic on the active ad
+- Active sitelinks use canonical `www` destination URLs

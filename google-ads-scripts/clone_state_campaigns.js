@@ -13,8 +13,8 @@ const CONFIG = {
   sourceCampaignNameContains: 'schedule meeting',
   sourceCampaignId: 23586656126,
   targets: [
-    { state: 'Ohio', abbreviation: 'OH', landingPage: 'https://billwithbomi.com/ohio' },
-    { state: 'Indiana', abbreviation: 'IN', landingPage: 'https://billwithbomi.com/indiana' },
+    { state: 'Ohio', abbreviation: 'OH', landingPage: 'https://www.billwithbomi.com/ohio' },
+    { state: 'Indiana', abbreviation: 'IN', landingPage: 'https://www.billwithbomi.com/indiana' },
   ],
 };
 
@@ -54,6 +54,11 @@ const STATE_KEYWORD_REPLACEMENTS = {
       'indiana medicaid therapist billing',
       'indiana medicaid credentialing',
       'indiana medicaid provider enrollment',
+    ],
+    'New Mexico': [
+      'new mexico medicaid therapist billing',
+      'new mexico medicaid credentialing',
+      'new mexico medicaid provider enrollment',
     ],
   },
 };

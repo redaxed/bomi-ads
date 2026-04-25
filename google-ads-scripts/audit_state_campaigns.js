@@ -3,11 +3,11 @@
  *
  * Paste into Google Ads > Tools > Bulk actions > Scripts and run Preview.
  * This script does not mutate anything. It logs a compact summary of campaigns
- * whose names contain Illinois, Ohio, or Indiana by default.
+ * whose names contain Illinois, Ohio, Indiana, or New Mexico by default.
  */
 
 const CONFIG = {
-  campaignNameContainsAny: ['Illinois', 'Ohio', 'Indiana'],
+  campaignNameContainsAny: ['Illinois', 'Ohio', 'Indiana', 'New Mexico'],
   maxRowsPerSection: 50,
 };
 
