@@ -2,7 +2,7 @@
 
 Source: Google Ads API REST via local `.env` credentials
 Credential file: `/Users/dax/bomi/bomi-ads/.env`
-Generated: 2026-04-25T10:35:11-07:00
+Generated: 2026-04-25T10:36:41-07:00
 Account: Bomi Health, Inc. / `5613091482`
 Timezone: America/Los_Angeles
 Primary window: 2026-04-24
@@ -62,5 +62,6 @@ Primary-day spend was $36.99 on 16 clicks and 2.00 conversions, for a blended CP
 
 - Campaign status in the table is the current API status; metrics are for the selected report window.
 - Ohio and Indiana state clone campaigns were created paused, then enabled after review on 2026-04-24.
+- New Mexico state clone campaign was created paused, then enabled after landing page deployment on 2026-04-25.
 - Slack-ready summary: [2026-04-24 daily ads Slack summary](2026-04-24-daily-ads-slack.md)
-- Raw chart URL: https://raw.githubusercontent.com/redaxed/bomi-ads/main/reports/2026-04-24-daily-ads-chart.svg
+- Raw chart URL: https://raw.githubusercontent.com/bomi-ai/bomi-ads/main/reports/2026-04-24-daily-ads-chart.svg

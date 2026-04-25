@@ -19,8 +19,8 @@ Last 7 full days         $302.52 ############    77 ########  6.00 ########
 ```
 
 *Campaign status*
-- Ohio/Indiana clones are ENABLED with $0.00 spend in this window.
+- State clone campaigns are ENABLED with $0.00 spend in this window.
 
 *Links*
-- Report: https://github.com/redaxed/bomi-ads/blob/main/reports/2026-04-24-daily-ads-report.md
-- Chart: https://raw.githubusercontent.com/redaxed/bomi-ads/main/reports/2026-04-24-daily-ads-chart.svg
+- Report: https://github.com/bomi-ai/bomi-ads/blob/main/reports/2026-04-24-daily-ads-report.md
+- Chart: https://raw.githubusercontent.com/bomi-ai/bomi-ads/main/reports/2026-04-24-daily-ads-chart.svg
