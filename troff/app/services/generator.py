@@ -460,7 +460,26 @@ def generate_blog_draft(
     return generated or _fallback_blog(topic, keyword, audience, website_url, source_url, author_profile)
 
 
-def _fallback_extract_insights(topic: str, blog_title: str, blog_markdown: str) -> list[str]:
+def _rank_candidates_by_feedback(candidates: list[str], reviewer_feedback: str) -> list[str]:
+    feedback_words = {
+        token
+        for token in re.findall(r"[a-zA-Z][a-zA-Z-]{3,}", reviewer_feedback.lower())
+        if token not in {"about", "focus", "insight", "insights", "make", "more", "less", "with", "that", "this", "them"}
+    }
+    if not feedback_words:
+        return candidates
+
+    indexed = list(enumerate(candidates))
+    indexed.sort(
+        key=lambda item: (
+            -sum(1 for word in feedback_words if word in item[1].lower()),
+            item[0],
+        )
+    )
+    return [candidate for _, candidate in indexed]
+
+
+def _fallback_extract_insights(topic: str, blog_title: str, blog_markdown: str, reviewer_feedback: str = "") -> list[str]:
     candidates: list[str] = []
     current_heading = ""
 
@@ -489,15 +508,17 @@ def _fallback_extract_insights(topic: str, blog_title: str, blog_markdown: str) 
     if not candidates:
         paragraphs = [line.strip() for line in blog_markdown.splitlines() if line.strip() and not line.strip().startswith("#")]
         candidates = paragraphs[:MAX_INSIGHTS]
+    candidates = _rank_candidates_by_feedback(candidates, reviewer_feedback)
     return _normalize_insights(candidates, blog_title or topic)
 
 
-def _openai_extract_insights(topic: str, blog_title: str, blog_markdown: str, author_profile: dict) -> list[str] | None:
+def _openai_extract_insights(topic: str, blog_title: str, blog_markdown: str, author_profile: dict, reviewer_feedback: str = "") -> list[str] | None:
     prompt = insight_extraction_prompt(
         topic=topic,
         blog_title=blog_title,
         blog_markdown=blog_markdown,
         author_prompt=_author_prompt(author_profile),
+        reviewer_feedback=reviewer_feedback,
     )
     data = _openai_json(prompt, max_output_tokens=1400)
     if not data:
@@ -508,9 +529,9 @@ def _openai_extract_insights(topic: str, blog_title: str, blog_markdown: str, au
     return insights
 
 
-def extract_blog_insights(topic: str, blog_title: str, blog_markdown: str, author_profile: dict) -> list[str]:
-    extracted = _openai_extract_insights(topic, blog_title, blog_markdown, author_profile)
-    return extracted or _fallback_extract_insights(topic, blog_title, blog_markdown)
+def extract_blog_insights(topic: str, blog_title: str, blog_markdown: str, author_profile: dict, reviewer_feedback: str = "") -> list[str]:
+    extracted = _openai_extract_insights(topic, blog_title, blog_markdown, author_profile, reviewer_feedback)
+    return extracted or _fallback_extract_insights(topic, blog_title, blog_markdown, reviewer_feedback)
 
 
 def _fallback_social_draft(platform: str, sequence: int, insight: str, blog_title: str) -> SurfaceDraft | None:

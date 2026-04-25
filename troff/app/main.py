@@ -238,7 +238,7 @@ def _set_item_status(item, status: ContentStatus) -> None:
         item.next_retry_at = None
 
 
-def _sync_social_posts(session, package: ContentPackage, blog: BlogPost, author: AuthorProfile, drafts) -> None:
+def _sync_social_posts(session, package: ContentPackage, blog: BlogPost, author: AuthorProfile, drafts, *, refresh_assets: bool = False) -> None:
     default_subreddit = (_safe_list(author.default_subreddits_json) or [os.getenv("REDDIT_DEFAULT_SUBREDDIT", "billwithbomi")])[0]
     existing_by_key = {(post.platform.value, post.sequence): post for post in package.social_posts}
     generated_keys: set[tuple[str, int]] = set()
@@ -264,7 +264,7 @@ def _sync_social_posts(session, package: ContentPackage, blog: BlogPost, author:
                 existing.requires_blog_live = True
                 existing.blog_post_id = blog.id
                 existing.error_message = ""
-                if asset_url and not existing.asset_url:
+                if asset_url and (refresh_assets or not existing.asset_url):
                     existing.asset_url = asset_url
             continue
 
@@ -655,6 +655,34 @@ def _mark_package_dirty(package: ContentPackage) -> None:
         package.campaign.status = CampaignStatus.draft
 
 
+def _regenerate_package_insights_and_socials(session, package: ContentPackage, reviewer_feedback: str = "") -> bool:
+    blog = package.blog_post
+    author = package.author_profile
+    if not blog or not author:
+        return False
+
+    author_profile = _author_prompt_dict(author)
+    insights = extract_blog_insights(
+        package.question or blog.title,
+        blog.title,
+        blog.markdown,
+        author_profile,
+        reviewer_feedback=str(reviewer_feedback or ""),
+    )
+    blog.interesting_points_json = json.dumps(insights)
+    drafts = generate_social_drafts(
+        blog_title=blog.title,
+        blog_markdown=blog.markdown,
+        insights=insights,
+        author_profile=author_profile,
+        surfaces=_surface_values(include_blog=False),
+    )
+    _sync_social_posts(session, package, blog, author, drafts, refresh_assets=True)
+    _assign_missing_media_assets(package)
+    _mark_package_dirty(package)
+    return True
+
+
 @app.post("/packages/{package_id}/save")
 async def save_package(request: Request, package_id: int):
     form = await request.form()
@@ -695,27 +723,7 @@ async def refresh_package_socials(request: Request, package_id: int):
         if "blog_markdown" in form:
             _save_package_form_values(package, form)
 
-        author = package.author_profile
-        if not author:
-            return RedirectResponse(url=f"/packages/{package_id}", status_code=303)
-
-        blog = package.blog_post
-        author_profile = _author_prompt_dict(author)
-        insights = extract_blog_insights(package.question or blog.title, blog.title, blog.markdown, author_profile)
-        blog.interesting_points_json = json.dumps(insights)
-        drafts = generate_social_drafts(
-            blog_title=blog.title,
-            blog_markdown=blog.markdown,
-            insights=insights,
-            author_profile=author_profile,
-            surfaces=_surface_values(include_blog=False),
-        )
-        _sync_social_posts(session, package, blog, author, drafts)
-        _assign_missing_media_assets(package)
-
-        package.status = PackageStatus.draft
-        if package.campaign:
-            package.campaign.status = CampaignStatus.draft
+        _regenerate_package_insights_and_socials(session, package, str(form.get("insight_feedback", "")))
 
     return RedirectResponse(url=f"/packages/{package_id}", status_code=303)
 

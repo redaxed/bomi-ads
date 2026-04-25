@@ -75,9 +75,19 @@
         <input type="text" name="blog_meta_description" value="{{ blog.meta_description }}" />
       </label>
     </div>
-    <label>Key insights (3-5, one per line)
-      <textarea name="interesting_points" rows="5">{{ points_text }}</textarea>
-    </label>
+    <div class="insight-workbench">
+      <label>Key insights (3-5, one per line)
+        <textarea name="interesting_points" rows="5">{{ points_text }}</textarea>
+      </label>
+      <div class="insight-feedback">
+        <label>Insight feedback
+          <textarea name="insight_feedback" rows="3"></textarea>
+        </label>
+        <div class="actions">
+          <button type="submit" formaction="/packages/{{ package.id }}/refresh-socials" class="secondary">Regenerate Insights + Social Drafts</button>
+        </div>
+      </div>
+    </div>
     <label>Markdown
       <textarea name="blog_markdown" rows="16">{{ blog.markdown }}</textarea>
     </label>
@@ -99,7 +109,6 @@
     <div class="row-between">
       <h2>Surface Drafts</h2>
       <div class="actions">
-        <button type="submit" formaction="/packages/{{ package.id }}/refresh-socials" class="secondary">Refresh Social Drafts</button>
         <button type="submit" formaction="/packages/{{ package.id }}/generate-media" class="secondary">Generate Missing Media Cards</button>
       </div>
     </div>

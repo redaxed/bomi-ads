@@ -5,7 +5,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.db import Base
-from app.main import _apply_package_intent, _save_package_form_values, _sync_package_status, _sync_social_posts
+from app.main import (
+    _apply_package_intent,
+    _regenerate_package_insights_and_socials,
+    _save_package_form_values,
+    _sync_package_status,
+    _sync_social_posts,
+)
 from app.models import (
     AuthorProfile,
     BlogPost,
@@ -223,5 +229,61 @@ def test_save_package_values_and_inline_action_preserve_current_edits() -> None:
     assert social.asset_url == "https://cdn.example/card.png"
     assert social.status == ContentStatus.approved
     assert package.status == PackageStatus.ready
+
+    session.close()
+
+
+def test_regenerate_package_insights_passes_feedback_and_rebuilds_drafts() -> None:
+    session = _session()
+
+    author = AuthorProfile(name="Bomi Team")
+    session.add(author)
+    session.flush()
+
+    package = ContentPackage(author_profile_id=author.id, question="Old topic")
+    session.add(package)
+    session.flush()
+
+    blog = BlogPost(
+        package_id=package.id,
+        author_profile_id=author.id,
+        title="Sample Blog",
+        slug="sample-blog",
+        markdown="# Sample",
+        interesting_points_json='["Old point one", "Old point two", "Old point three"]',
+    )
+    session.add(blog)
+    session.flush()
+
+    social = SocialPost(
+        package_id=package.id,
+        blog_post_id=blog.id,
+        platform=Platform.linkedin,
+        body="old social",
+        sequence=1,
+        status=ContentStatus.draft,
+    )
+    session.add(social)
+    session.flush()
+
+    package = session.get(ContentPackage, package.id)
+    assert package is not None
+
+    new_insights = ["New point one", "New point two", "New point three"]
+    with patch("app.main.extract_blog_insights", return_value=new_insights) as extract, patch(
+        "app.main.generate_social_drafts",
+        return_value=[SurfaceDraft(platform="linkedin", body="new social", sequence=1)],
+    ) as generate:
+        did_regenerate = _regenerate_package_insights_and_socials(session, package, "Make it more tactical.")
+
+    session.flush()
+
+    assert did_regenerate is True
+    assert blog.interesting_points_json == '["New point one", "New point two", "New point three"]'
+    assert social.body == "new social"
+    assert package.status == PackageStatus.draft
+    extract.assert_called_once()
+    assert extract.call_args.kwargs["reviewer_feedback"] == "Make it more tactical."
+    generate.assert_called_once()
 
     session.close()

@@ -162,6 +162,18 @@ button.secondary {
   background: #fbfdff;
 }
 
+.insight-workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.42fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.insight-feedback {
+  display: grid;
+  gap: 8px;
+}
+
 .surface-links {
   display: flex;
   flex-wrap: wrap;
@@ -258,4 +270,5 @@ a { color: var(--accent); }
 @media (max-width: 740px) {
   .topbar { flex-direction: column; align-items: flex-start; }
   .row-between { flex-direction: column; align-items: flex-start; }
+  .insight-workbench { grid-template-columns: 1fr; }
 }

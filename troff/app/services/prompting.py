@@ -153,7 +153,19 @@ def blog_generation_prompt(
     ).strip()
 
 
-def insight_extraction_prompt(*, topic: str, blog_title: str, blog_markdown: str, author_prompt: str) -> str:
+def insight_extraction_prompt(*, topic: str, blog_title: str, blog_markdown: str, author_prompt: str, reviewer_feedback: str = "") -> str:
+    feedback = reviewer_feedback.strip()
+    feedback_block = (
+        textwrap.dedent(
+            f"""
+
+            REVIEWER FEEDBACK FOR THIS PASS
+            {feedback}
+            """
+        )
+        if feedback
+        else ""
+    )
     return textwrap.dedent(
         f"""
         Read this blog draft and extract the strongest social insights.
@@ -169,6 +181,8 @@ def insight_extraction_prompt(*, topic: str, blog_title: str, blog_markdown: str
         - Reject generic filler like "communication matters" unless the draft makes it specific.
         - Each insight should stand on its own and be short enough to anchor one social post.
         - Keep the phrasing sharp, human, and specific rather than polished-and-empty.
+        - If reviewer feedback is provided, use it to choose sharper angles and revise the insight set while staying faithful to the blog.
+        {feedback_block}
 
         BLOG TITLE
         {blog_title}

@@ -32,7 +32,7 @@ MVP packages include:
 - 3-5 Reddit drafts
 - optional generated media cards for selected social surfaces
 
-The human stays in control of approval and editing. The app handles the queue, retries, and publishing attempts.
+The human stays in control of approval and editing. The package screen also supports reviewer feedback for the insight pass, so a reviewer can ask for sharper angles and regenerate the insights plus dependent social drafts before approval. The app handles the queue, retries, and publishing attempts.
 
 AI voice is shaped by the Polymath Biller prompt in `app/services/prompting.py`, with optional env overrides for default word count, audience, and POV.
 

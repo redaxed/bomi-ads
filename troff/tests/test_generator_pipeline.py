@@ -9,7 +9,7 @@ from app.services.generator import (
     generate_blog_draft,
     generate_social_drafts,
 )
-from app.services.prompting import blog_generation_prompt, polymath_biller_style_guide, social_generation_prompt
+from app.services.prompting import blog_generation_prompt, insight_extraction_prompt, polymath_biller_style_guide, social_generation_prompt
 
 
 AUTHOR = {
@@ -96,6 +96,21 @@ def test_extract_blog_insights_fallback_prefers_actual_points_over_headings() ->
     assert "The thesis" not in insights
 
 
+def test_extract_blog_insights_fallback_uses_feedback_to_rank_matches() -> None:
+    markdown = "\n".join(
+        [
+            "# Sample",
+            "## Credentialing handoffs need a named owner.",
+            "## Denial cleanup should happen before month end.",
+            "## Enrollment status needs a visible weekly queue.",
+        ]
+    )
+    with patch.dict(os.environ, {}, clear=True):
+        insights = extract_blog_insights("Topic", "Sample", markdown, AUTHOR, reviewer_feedback="Focus on denial cleanup.")
+
+    assert insights[0] == "Denial cleanup should happen before month end."
+
+
 def test_generate_social_drafts_creates_one_per_insight_per_surface() -> None:
     insights = ["Insight one", "Insight two", "Insight three", "Insight four"]
     with patch.dict(os.environ, {}, clear=True):
@@ -144,6 +159,13 @@ def test_generation_prompts_include_voice_and_platform_rules() -> None:
             surfaces=["linkedin", "reddit"],
             blog_url_placeholder=BLOG_URL_PLACEHOLDER,
         )
+        insight_prompt = insight_extraction_prompt(
+            topic="Credentialing bottlenecks",
+            blog_title="Credentialing bottlenecks",
+            blog_markdown="# Sample",
+            author_prompt="Author: Bomi Team",
+            reviewer_feedback="Make the insights more tactical and less generic.",
+        )
 
     assert "TL;DR" in blog_prompt
     assert "Biller's Corner" in blog_prompt
@@ -156,6 +178,8 @@ def test_generation_prompts_include_voice_and_platform_rules() -> None:
     assert BLOG_URL_PLACEHOLDER in social_prompt
     assert "LinkedIn" in social_prompt
     assert "Reddit" in social_prompt
+    assert "REVIEWER FEEDBACK FOR THIS PASS" in insight_prompt
+    assert "Make the insights more tactical" in insight_prompt
 
 
 def test_generate_social_drafts_uses_targeted_model_calls_for_missing_posts() -> None:
