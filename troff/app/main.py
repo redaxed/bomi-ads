@@ -600,6 +600,61 @@ def package_detail(request: Request, package_id: int):
         )
 
 
+def _save_package_form_values(package: ContentPackage, form) -> None:
+    package.question = str(form.get("question", package.question)).strip()
+    package.target_keyword = str(form.get("target_keyword", package.target_keyword)).strip()
+    package.audience = str(form.get("audience", package.audience)).strip()
+    package.website_url = str(form.get("website_url", package.website_url)).strip()
+
+    blog = package.blog_post
+    if not blog:
+        return
+
+    blog.title = str(form.get("blog_title", blog.title)).strip()
+    blog.slug = str(form.get("blog_slug", blog.slug)).strip()
+    blog.meta_description = str(form.get("blog_meta_description", blog.meta_description)).strip()
+    blog.markdown = str(form.get("blog_markdown", blog.markdown))
+
+    points = _normalize_points_input(
+        [line.strip() for line in str(form.get("interesting_points", "")).splitlines() if line.strip()],
+        package.question or blog.title,
+    )
+    blog.interesting_points_json = json.dumps(points)
+
+    for social in package.social_posts:
+        social.body = str(form.get(f"social_{social.id}_body", social.body))
+        social.asset_url = str(form.get(f"social_{social.id}_asset_url", social.asset_url)).strip()
+        social.reddit_title = str(form.get(f"social_{social.id}_reddit_title", social.reddit_title)).strip()
+        social.reddit_subreddit = _normalize_subreddit(str(form.get(f"social_{social.id}_reddit_subreddit", social.reddit_subreddit)))
+
+
+def _apply_package_intent(session, package: ContentPackage, intent: str) -> None:
+    parts = [part.strip() for part in (intent or "").split(":")]
+    if len(parts) != 3:
+        return
+
+    item_type, raw_id, action = parts
+    if not raw_id.isdigit():
+        return
+
+    if item_type == "blog":
+        item = session.get(BlogPost, int(raw_id))
+        if item and item.package_id == package.id:
+            _apply_item_action(item, action)
+            return
+
+    if item_type == "social":
+        item = session.get(SocialPost, int(raw_id))
+        if item and item.package_id == package.id:
+            _apply_item_action(item, action)
+
+
+def _mark_package_dirty(package: ContentPackage) -> None:
+    package.status = PackageStatus.draft
+    if package.campaign:
+        package.campaign.status = CampaignStatus.draft
+
+
 @app.post("/packages/{package_id}/save")
 async def save_package(request: Request, package_id: int):
     form = await request.form()
@@ -608,42 +663,37 @@ async def save_package(request: Request, package_id: int):
         if not package or not package.blog_post:
             return RedirectResponse(url="/", status_code=303)
 
-        package.question = str(form.get("question", package.question)).strip()
-        package.target_keyword = str(form.get("target_keyword", package.target_keyword)).strip()
-        package.audience = str(form.get("audience", package.audience)).strip()
-        package.website_url = str(form.get("website_url", package.website_url)).strip()
+        _save_package_form_values(package, form)
+        _mark_package_dirty(package)
 
-        blog = package.blog_post
-        blog.title = str(form.get("blog_title", blog.title)).strip()
-        blog.slug = str(form.get("blog_slug", blog.slug)).strip()
-        blog.meta_description = str(form.get("blog_meta_description", blog.meta_description)).strip()
-        blog.markdown = str(form.get("blog_markdown", blog.markdown))
+    return RedirectResponse(url=f"/packages/{package_id}", status_code=303)
 
-        points = _normalize_points_input(
-            [line.strip() for line in str(form.get("interesting_points", "")).splitlines() if line.strip()],
-            package.question or blog.title,
-        )
-        blog.interesting_points_json = json.dumps(points)
 
-        for social in package.social_posts:
-            social.body = str(form.get(f"social_{social.id}_body", social.body))
-            social.asset_url = str(form.get(f"social_{social.id}_asset_url", social.asset_url)).strip()
-            social.reddit_title = str(form.get(f"social_{social.id}_reddit_title", social.reddit_title)).strip()
-            social.reddit_subreddit = _normalize_subreddit(str(form.get(f"social_{social.id}_reddit_subreddit", social.reddit_subreddit)))
+@app.post("/packages/{package_id}/save-action")
+async def save_package_action(request: Request, package_id: int):
+    form = await request.form()
+    with get_session() as session:
+        package = session.get(ContentPackage, package_id)
+        if not package or not package.blog_post:
+            return RedirectResponse(url="/", status_code=303)
 
-        package.status = PackageStatus.draft
-        if package.campaign:
-            package.campaign.status = CampaignStatus.draft
+        _save_package_form_values(package, form)
+        _apply_package_intent(session, package, str(form.get("intent", "")))
+        _sync_package_status(package)
 
     return RedirectResponse(url=f"/packages/{package_id}", status_code=303)
 
 
 @app.post("/packages/{package_id}/refresh-socials")
-def refresh_package_socials(package_id: int):
+async def refresh_package_socials(request: Request, package_id: int):
+    form = await request.form()
     with get_session() as session:
         package = session.get(ContentPackage, package_id)
         if not package or not package.blog_post:
             return RedirectResponse(url="/", status_code=303)
+
+        if "blog_markdown" in form:
+            _save_package_form_values(package, form)
 
         author = package.author_profile
         if not author:
@@ -671,10 +721,13 @@ def refresh_package_socials(package_id: int):
 
 
 @app.post("/packages/{package_id}/generate-media")
-def generate_package_media(package_id: int):
+async def generate_package_media(request: Request, package_id: int):
+    form = await request.form()
     with get_session() as session:
         package = session.get(ContentPackage, package_id)
         if package:
+            if "blog_markdown" in form:
+                _save_package_form_values(package, form)
             _assign_missing_media_assets(package, force=True)
 
     return RedirectResponse(url=f"/packages/{package_id}", status_code=303)

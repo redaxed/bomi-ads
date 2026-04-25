@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.db import Base
-from app.main import _sync_social_posts
+from app.main import _apply_package_intent, _save_package_form_values, _sync_package_status, _sync_social_posts
 from app.models import (
     AuthorProfile,
     BlogPost,
@@ -13,6 +13,7 @@ from app.models import (
     CampaignStatus,
     ContentPackage,
     ContentStatus,
+    PackageStatus,
     Platform,
     SocialPost,
 )
@@ -155,5 +156,72 @@ def test_sync_social_posts_can_attach_generated_media_cards() -> None:
     post = session.query(SocialPost).one()
     assert post.asset_url == "https://cdn.example/card.png"
     build_card.assert_called_once_with("First insight")
+
+    session.close()
+
+
+def test_save_package_values_and_inline_action_preserve_current_edits() -> None:
+    session = _session()
+
+    author = AuthorProfile(name="Bomi Team")
+    session.add(author)
+    session.flush()
+
+    package = ContentPackage(author_profile_id=author.id, question="Old topic")
+    session.add(package)
+    session.flush()
+
+    blog = BlogPost(
+        package_id=package.id,
+        author_profile_id=author.id,
+        title="Old title",
+        slug="old-title",
+        markdown="Old markdown",
+        meta_description="Old meta",
+        interesting_points_json='["Old point"]',
+    )
+    session.add(blog)
+    session.flush()
+
+    social = SocialPost(
+        package_id=package.id,
+        blog_post_id=blog.id,
+        platform=Platform.linkedin,
+        body="old social",
+        sequence=1,
+        status=ContentStatus.draft,
+    )
+    session.add(social)
+    session.flush()
+
+    package = session.get(ContentPackage, package.id)
+    assert package is not None
+
+    form = {
+        "question": "New topic",
+        "target_keyword": "new keyword",
+        "audience": "new audience",
+        "website_url": "https://www.billwithbomi.com/illinois",
+        "blog_title": "New title",
+        "blog_slug": "new-title",
+        "blog_meta_description": "New meta",
+        "blog_markdown": "New markdown",
+        "interesting_points": "New point one\nNew point two\nNew point three",
+        f"social_{social.id}_body": "new social",
+        f"social_{social.id}_asset_url": "https://cdn.example/card.png",
+        "intent": f"social:{social.id}:approve",
+    }
+
+    _save_package_form_values(package, form)
+    _apply_package_intent(session, package, form["intent"])
+    _sync_package_status(package)
+
+    assert package.question == "New topic"
+    assert blog.title == "New title"
+    assert blog.markdown == "New markdown"
+    assert social.body == "new social"
+    assert social.asset_url == "https://cdn.example/card.png"
+    assert social.status == ContentStatus.approved
+    assert package.status == PackageStatus.ready
 
     session.close()
