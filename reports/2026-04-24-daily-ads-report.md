@@ -2,7 +2,7 @@
 
 Source: Google Ads API REST via local `.env` credentials
 Credential file: `/Users/dax/bomi/bomi-ads/.env`
-Generated: 2026-04-25T10:36:41-07:00
+Generated: 2026-04-25T21:38:27-07:00
 Account: Bomi Health, Inc. / `5613091482`
 Timezone: America/Los_Angeles
 Primary window: 2026-04-24
@@ -22,7 +22,7 @@ Primary-day spend was $36.99 on 16 clicks and 2.00 conversions, for a blended CP
 | Primary day | $36.99 | 260 | 16 | 6.15% | $2.31 | 2.00 | $18.49 |
 | Prior day | $47.13 | 186 | 8 | 4.30% | $5.89 | 0.00 | n/a |
 | Same weekday last week | $35.07 | 218 | 15 | 6.88% | $2.34 | 2.00 | $17.54 |
-| Last 7 full days | $302.52 | 1,172 | 77 | 6.57% | $3.93 | 6.00 | $50.42 |
+| Last 7 full days | $302.52 | 1,171 | 77 | 6.58% | $3.93 | 6.00 | $50.42 |
 
 ## Campaigns
 
