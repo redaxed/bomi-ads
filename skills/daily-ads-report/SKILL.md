@@ -11,6 +11,7 @@ Use this skill to create Bomi's daily Google Ads report.
    - Prior day
    - Same weekday last week
    - Last 7 full days ending on the primary day
+   - Primary-day performance grouped by inferred state
 4. Save the report, Slack summary, and chart artifacts:
    - `reports/YYYY-MM-DD-daily-ads-report.md`
    - `reports/YYYY-MM-DD-daily-ads-slack.md`
@@ -61,6 +62,7 @@ Post the exact contents of `reports/YYYY-MM-DD-daily-ads-slack.md` to `#gtm` (`C
 - bold section labels with single asterisks
 - spend, clicks, conversions, CPA, and prior-day deltas
 - a monospace mini chart that renders reliably in Slack
+- a primary-day state breakdown grouped from campaign names
 - links to the committed report and SVG chart
 
 Keep the Slack message brief and do not include secrets, credential paths, or raw OAuth/API errors beyond the high-level blocker.

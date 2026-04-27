@@ -30,6 +30,62 @@ OAUTH_TOKEN_URL = "https://oauth2.googleapis.com/token"
 SOURCE_ENV = Path("/Users/dax/bomi/bomi-ads/.env")
 REPO_REPORT_BASE = "https://github.com/bomi-ai/bomi-ads/blob/main/reports"
 RAW_REPORT_BASE = "https://raw.githubusercontent.com/bomi-ai/bomi-ads/main/reports"
+NON_STATE_LABEL = "Other / general"
+SOURCE_STATE_CAMPAIGNS = {
+    "schedule meeting": "Illinois",
+}
+STATE_NAMES = [
+    "Alabama",
+    "Alaska",
+    "Arizona",
+    "Arkansas",
+    "California",
+    "Colorado",
+    "Connecticut",
+    "Delaware",
+    "Florida",
+    "Georgia",
+    "Hawaii",
+    "Idaho",
+    "Illinois",
+    "Indiana",
+    "Iowa",
+    "Kansas",
+    "Kentucky",
+    "Louisiana",
+    "Maine",
+    "Maryland",
+    "Massachusetts",
+    "Michigan",
+    "Minnesota",
+    "Mississippi",
+    "Missouri",
+    "Montana",
+    "Nebraska",
+    "Nevada",
+    "New Hampshire",
+    "New Jersey",
+    "New Mexico",
+    "New York",
+    "North Carolina",
+    "North Dakota",
+    "Ohio",
+    "Oklahoma",
+    "Oregon",
+    "Pennsylvania",
+    "Rhode Island",
+    "South Carolina",
+    "South Dakota",
+    "Tennessee",
+    "Texas",
+    "Utah",
+    "Vermont",
+    "Virginia",
+    "Washington",
+    "West Virginia",
+    "Wisconsin",
+    "Wyoming",
+]
 
 
 @dataclass(frozen=True)
@@ -287,6 +343,48 @@ def totals(rows: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def state_for_campaign(name: str) -> str:
+    normalized = " ".join(name.lower().split())
+    if normalized in SOURCE_STATE_CAMPAIGNS:
+        return SOURCE_STATE_CAMPAIGNS[normalized]
+    for state in STATE_NAMES:
+        if re.search(rf"(^|[^A-Za-z]){re.escape(state)}([^A-Za-z]|$)", name, re.IGNORECASE):
+            return state
+    return NON_STATE_LABEL
+
+
+def status_summary(rows: list[dict[str, Any]]) -> str:
+    counts: dict[str, int] = {}
+    for row in rows:
+        status = row["status"] or "UNKNOWN"
+        counts[status] = counts.get(status, 0) + 1
+    return ", ".join(
+        f"{status} x{count}" if count > 1 else status
+        for status, count in sorted(counts.items())
+    )
+
+
+def state_breakdown(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for row in rows:
+        grouped.setdefault(state_for_campaign(row["name"]), []).append(row)
+
+    result = []
+    for state, state_rows in grouped.items():
+        total = totals(state_rows)
+        result.append(
+            {
+                "state": state,
+                "campaign_count": len(state_rows),
+                "statuses": status_summary(state_rows),
+                "budget": sum(row["budget"] for row in state_rows),
+                "campaigns": [row["name"] for row in state_rows],
+                **total,
+            }
+        )
+    return sorted(result, key=lambda row: (row["state"] == NON_STATE_LABEL, row["state"]))
+
+
 def metric_table(window_data: dict[str, list[dict[str, Any]]]) -> str:
     lines = [
         "| Window | Cost | Impressions | Clicks | CTR | Avg CPC | Conversions | CPA |",
@@ -306,6 +404,35 @@ def metric_table(window_data: dict[str, list[dict[str, Any]]]) -> str:
                     fmt_money(total["cpc"]),
                     f"{total['conversions']:.2f}",
                     fmt_cpa(total["cost"], total["conversions"]),
+                ]
+            )
+            + " |"
+        )
+    return "\n".join(lines)
+
+
+def state_table(rows: list[dict[str, Any]]) -> str:
+    state_rows = state_breakdown(rows)
+    if not state_rows:
+        return "No campaign rows returned for the primary window."
+    lines = [
+        "| State | Campaigns | Status | Budget | Cost | Clicks | Impressions | Conversions | CPA |",
+        "| --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for row in state_rows:
+        lines.append(
+            "| "
+            + " | ".join(
+                [
+                    row["state"],
+                    fmt_int(row["campaign_count"]),
+                    row["statuses"],
+                    fmt_money(row["budget"]),
+                    fmt_money(row["cost"]),
+                    fmt_int(row["clicks"]),
+                    fmt_int(row["impressions"]),
+                    f"{row['conversions']:.2f}",
+                    fmt_cpa(row["cost"], row["conversions"]),
                 ]
             )
             + " |"
@@ -336,6 +463,27 @@ def campaign_table(rows: list[dict[str, Any]]) -> str:
             + " |"
         )
     return "\n".join(lines)
+
+
+def state_chart_lines(rows: list[dict[str, Any]]) -> list[str]:
+    state_rows = state_breakdown(rows)
+    lines = ["State                  Spend       Clicks   Conv"]
+    if not state_rows:
+        return [*lines, "No campaign rows returned."]
+    max_spend = max(row["cost"] for row in state_rows)
+    max_clicks = max(row["clicks"] for row in state_rows)
+    max_conversions = max(row["conversions"] for row in state_rows)
+    for row in state_rows:
+        spend_bar = text_bar(row["cost"], max_spend, 10)
+        click_bar = text_bar(row["clicks"], max_clicks, 6)
+        conv_bar = text_bar(row["conversions"], max_conversions, 6)
+        lines.append(
+            (
+                f"{row['state'][:20]:<20} {fmt_money(row['cost']):>9} {spend_bar:<10} "
+                f"{fmt_int(row['clicks']):>5} {click_bar:<6} {fmt_float(row['conversions']):>5} {conv_bar}"
+            ).rstrip()
+        )
+    return lines
 
 
 def search_term_table(rows: list[dict[str, Any]]) -> str:
@@ -408,8 +556,8 @@ def svg_text(value: Any) -> str:
 def build_chart_svg(live: LiveReport) -> str:
     labels = list(live.window_data.keys())
     totals_by_label = {label: totals(rows) for label, rows in live.window_data.items()}
+    state_rows = state_breakdown(live.window_data["Primary day"])
     chart_width = 940
-    chart_height = 640
     left = 235
     max_bar = 555
     y_start = 92
@@ -420,6 +568,9 @@ def build_chart_svg(live: LiveReport) -> str:
         ("Clicks", "clicks", "#059669", lambda value: fmt_int(int(value))),
         ("Conversions", "conversions", "#d97706", fmt_float),
     ]
+    state_section_y = y_start + len(metric_specs) * 176 + 18
+    state_row_gap = 30
+    chart_height = state_section_y + 42 + max(len(state_rows), 1) * state_row_gap + 32
 
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{chart_width}" height="{chart_height}" viewBox="0 0 {chart_width} {chart_height}">',
@@ -448,6 +599,25 @@ def build_chart_svg(live: LiveReport) -> str:
             )
         section_y += 176
 
+    parts.append(f'<text x="32" y="{state_section_y}" class="section">Primary Day State Spend</text>')
+    if not state_rows:
+        parts.append(f'<text x="32" y="{state_section_y + 30}" class="muted label">No campaign rows returned.</text>')
+    else:
+        max_state_spend = max(row["cost"] for row in state_rows)
+        state_bar = 430
+        for index, row in enumerate(state_rows):
+            y = state_section_y + 24 + index * state_row_gap
+            width = 0 if max_state_spend <= 0 or row["cost"] <= 0 else max(2, (row["cost"] / max_state_spend) * state_bar)
+            details = f"{fmt_money(row['cost'])} | {fmt_int(row['clicks'])} clicks | {fmt_float(row['conversions'])} conv"
+            parts.extend(
+                [
+                    f'<text x="32" y="{y + 15}" class="label">{svg_text(row["state"])}</text>',
+                    f'<rect x="{left}" y="{y}" width="{state_bar}" height="22" rx="4" fill="#f3f4f6"/>',
+                    f'<rect x="{left}" y="{y}" width="{width:.1f}" height="22" rx="4" fill="#0891b2"/>',
+                    f'<text x="{left + state_bar + 18}" y="{y + 16}" class="label">{svg_text(details)}</text>',
+                ]
+            )
+
     parts.append("</svg>")
     return "\n".join(parts) + "\n"
 
@@ -464,22 +634,14 @@ def blocked_chart_svg(report_date: date) -> str:
 
 
 def campaign_status_note(rows: list[dict[str, Any]]) -> str:
-    state_rows = [
-        row
-        for row in rows
-        if any(
-            marker in row["name"]
-            for marker in [" - Ohio ", " - Indiana ", " - New Mexico "]
-        )
-    ]
+    state_rows = [row for row in state_breakdown(rows) if row["state"] != NON_STATE_LABEL]
     if not state_rows:
-        return "State clone campaigns were not present in this report window."
-    enabled = [row for row in state_rows if row["status"] == "ENABLED"]
-    spend = sum(row["cost"] for row in state_rows)
-    if len(enabled) == len(state_rows):
-        return f"State clone campaigns are ENABLED with {fmt_money(spend)} spend in this window."
-    statuses = ", ".join(f"{row['name']}: {row['status']}" for row in state_rows)
-    return f"State clone statuses: {statuses}."
+        return "State-specific campaigns were not present in this report window."
+    parts = [
+        f"{row['state']} {row['statuses']} with {fmt_money(row['cost'])} spend"
+        for row in state_rows
+    ]
+    return "State campaigns: " + "; ".join(parts) + "."
 
 
 def build_slack_summary(live: LiveReport) -> str:
@@ -508,6 +670,7 @@ def build_slack_summary(live: LiveReport) -> str:
                 f"{fmt_int(total['clicks']):>5} {click_bar:<8} {fmt_float(total['conversions']):>5} {conv_bar}"
             ).rstrip()
         )
+    state_lines = state_chart_lines(live.window_data["Primary day"])
 
     return "\n".join(
         [
@@ -525,6 +688,11 @@ def build_slack_summary(live: LiveReport) -> str:
             "*Mini chart*",
             "```text",
             *chart_lines,
+            "```",
+            "",
+            "*State breakdown*",
+            "```text",
+            *state_lines,
             "```",
             "",
             "*Campaign status*",
@@ -546,7 +714,7 @@ def blocked_slack_summary(report_date: date) -> str:
             "*Status:* Live Google Ads metrics were unavailable for this run.",
             "",
             "*What this means*",
-            "- Spend, clicks, conversions, CPA, and campaign status were not refreshed.",
+            "- Spend, clicks, conversions, CPA, state breakdown, and campaign status were not refreshed.",
             "- The report records the data-access blocker and the intended comparison windows.",
             "",
             "*Links*",
@@ -607,6 +775,12 @@ Primary-day spend was {fmt_money(primary_totals['cost'])} on {fmt_int(primary_to
 
 {metric_table(live.window_data)}
 
+## State Breakdown
+
+Primary-window campaign metrics grouped by inferred state. Campaigns without a state-specific campaign name are grouped as `{NON_STATE_LABEL}`; the source `schedule meeting` campaign is treated as `Illinois`.
+
+{state_table(live.window_data["Primary day"])}
+
 ## Campaigns
 
 {campaign_table(live.window_data["Primary day"])}
@@ -618,6 +792,7 @@ Primary-day spend was {fmt_money(primary_totals['cost'])} on {fmt_int(primary_to
 ## Notes
 
 - Campaign status in the table is the current API status; metrics are for the selected report window.
+- State breakdown is inferred from campaign names and the configured source campaign state mapping.
 - Ohio and Indiana state clone campaigns were created paused, then enabled after review on 2026-04-24.
 - New Mexico state clone campaign was created paused, then enabled after landing page deployment on 2026-04-25.
 - Slack-ready summary: [{live.report_date.isoformat()} daily ads Slack summary]({live.report_date.isoformat()}-daily-ads-slack.md)
