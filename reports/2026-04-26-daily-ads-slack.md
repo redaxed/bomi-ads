@@ -18,8 +18,18 @@ Same weekday last week    $19.16 #               12 #         1.00 ##
 Last 7 full days         $371.47 ############    77 ########  5.00 ########
 ```
 
+*State breakdown*
+```text
+State                  Spend       Clicks   Conv
+Illinois                $11.08 ##             9 ######  0.00
+Indiana                  $0.00                0         0.00
+New Mexico              $29.24 ######         1 #       0.00
+Ohio                    $29.94 ######         1 #       0.00
+Other / general         $47.93 ##########     5 ###     0.00
+```
+
 *Campaign status*
-- State clone campaigns are ENABLED with $59.18 spend in this window.
+- State campaigns: Illinois ENABLED with $11.08 spend; Indiana ENABLED with $0.00 spend; New Mexico ENABLED with $29.24 spend; Ohio ENABLED with $29.94 spend.
 
 *Links*
 - Report: https://github.com/bomi-ai/bomi-ads/blob/main/reports/2026-04-26-daily-ads-report.md

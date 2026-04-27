@@ -2,7 +2,7 @@
 
 Source: Google Ads API REST via local `.env` credentials
 Credential file: `/Users/dax/bomi/bomi-ads/.env`
-Generated: 2026-04-27T02:00:04-07:00
+Generated: 2026-04-27T02:18:40-07:00
 Account: Bomi Health, Inc. / `5613091482`
 Timezone: America/Los_Angeles
 Primary window: 2026-04-26
@@ -23,6 +23,18 @@ Primary-day spend was $118.19 on 16 clicks and 0.00 conversions, for a blended C
 | Prior day | $10.77 | 278 | 11 | 3.96% | $0.98 | 1.00 | $10.77 |
 | Same weekday last week | $19.16 | 229 | 12 | 5.24% | $1.60 | 1.00 | $19.16 |
 | Last 7 full days | $371.47 | 1,389 | 77 | 5.54% | $4.82 | 5.00 | $74.29 |
+
+## State Breakdown
+
+Primary-window campaign metrics grouped by inferred state. Campaigns without a state-specific campaign name are grouped as `Other / general`; the source `schedule meeting` campaign is treated as `Illinois`.
+
+| State | Campaigns | Status | Budget | Cost | Clicks | Impressions | Conversions | CPA |
+| --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Illinois | 1 | ENABLED | $15.00 | $11.08 | 9 | 113 | 0.00 | n/a |
+| Indiana | 1 | ENABLED | $15.00 | $0.00 | 0 | 31 | 0.00 | n/a |
+| New Mexico | 1 | ENABLED | $15.00 | $29.24 | 1 | 13 | 0.00 | n/a |
+| Ohio | 1 | ENABLED | $15.00 | $29.94 | 1 | 52 | 0.00 | n/a |
+| Other / general | 1 | ENABLED | $25.00 | $47.93 | 5 | 56 | 0.00 | n/a |
 
 ## Campaigns
 
@@ -67,6 +79,7 @@ Primary-day spend was $118.19 on 16 clicks and 0.00 conversions, for a blended C
 ## Notes
 
 - Campaign status in the table is the current API status; metrics are for the selected report window.
+- State breakdown is inferred from campaign names and the configured source campaign state mapping.
 - Ohio and Indiana state clone campaigns were created paused, then enabled after review on 2026-04-24.
 - New Mexico state clone campaign was created paused, then enabled after landing page deployment on 2026-04-25.
 - Slack-ready summary: [2026-04-26 daily ads Slack summary](2026-04-26-daily-ads-slack.md)
