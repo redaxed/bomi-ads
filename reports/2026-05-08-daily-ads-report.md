@@ -2,7 +2,7 @@
 
 Source: Google Ads API REST via local `.env` credentials
 Credential file: `/Users/dax/bomi/bomi-ads/.env`
-Generated: 2026-05-09T18:56:15-07:00
+Generated: 2026-05-09T18:58:01-07:00
 Account: Bomi Health, Inc. / `5613091482`
 Timezone: America/Los_Angeles
 Primary window: 2026-05-08
