@@ -1,7 +1,10 @@
 .env
 *.env
+.DS_Store
+.secrets/
 credentials.json
 application_default_credentials.json
+google-oauth-client.json
 google-ads.yaml
 *.token.json
 __pycache__/
