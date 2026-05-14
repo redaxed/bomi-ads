@@ -2,7 +2,7 @@
 
 Created on 2026-05-14 as a paused pooled-state Meta/Facebook Feed and Google
 Demand Gen test. Meta was activated on 2026-05-14 after user approval; Google
-Demand Gen remains paused pending policy review.
+Demand Gen was activated on 2026-05-14 after policy review cleared.
 
 ## Moda Asset Generation
 
@@ -29,7 +29,8 @@ Demand Gen remains paused pending policy review.
 - Ad: `808795849849`
 - Audience: `customers/5613091482/audiences/347573090`
 - Assets: `customers/5613091482/assets/360728002933`, `360728002936`, `360728002939`
-- Readback: `assets/ehr_vs_bomi_tax_software_2026-05-14/google_ads_readback.json`
+- Creation readback: `assets/ehr_vs_bomi_tax_software_2026-05-14/google_ads_readback.json`
+- Activation readback: `assets/ehr_vs_bomi_tax_software_2026-05-14/google_ads_activation_readback.json`
 
 ## Meta Budget And Status
 
@@ -43,12 +44,11 @@ Demand Gen remains paused pending policy review.
 ## Google Budget And Status
 
 - Daily budget: `20000000` micros = `$20/day`
-- Creation status: paused only; no activation performed
-- Latest readback campaign status: `PAUSED`, primary status `PAUSED`
-- Latest readback ad group status: `PAUSED`
-- Latest readback ad status: `PAUSED`
-- Policy review: `REVIEW_IN_PROGRESS`; approval status `UNKNOWN`
-- Follow-up automation: `check-google-ad-review` checks hourly and enables only after review clears
+- Created paused; activated on 2026-05-14 after policy review cleared
+- Latest readback campaign status: `ENABLED`, primary status `LEARNING`
+- Latest readback ad group status: `ENABLED`
+- Latest readback ad status: `ENABLED`
+- Policy review: `REVIEWED`; approval status `APPROVED`
 
 ## Asset
 
@@ -98,7 +98,7 @@ https://www.billwithbomi.com/?utm_source=meta&utm_medium=paid_social&utm_campaig
 - Google audience: native therapist billing, credentialing, EHR billing help, practice operator, and billing/admin signals
 - Google optimized targeting: enabled
 
-## Meta Readback
+## Meta Creation Readback
 
 ```json
 {
@@ -368,5 +368,5 @@ https://www.billwithbomi.com/?utm_source=meta&utm_medium=paid_social&utm_campaig
 
 - Objects were created paused first.
 - Meta was activated only after explicit user approval on 2026-05-14.
-- Google remains paused until policy review clears.
+- Google was activated only after policy review cleared on 2026-05-14.
 - Never commit or print Meta, Google Ads, or Moda credentials.

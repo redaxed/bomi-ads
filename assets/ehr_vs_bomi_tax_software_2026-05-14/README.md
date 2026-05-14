@@ -10,7 +10,8 @@ Target creative:
 - Metadata: `moda_metadata.json`
 - Meta handoff: `INFO.md`
 - Meta activation readback: `meta_activation_readback.json`
-- Google readback: `google_ads_readback.json`
+- Google creation readback: `google_ads_readback.json`
+- Google activation readback: `google_ads_activation_readback.json`
 
 Generation command used:
 
@@ -44,8 +45,7 @@ Platform objects:
 Current state after 2026-05-14 user approval:
 
 - Meta/Facebook Feed is active at `$20/day`.
-- Google Demand Gen remains paused pending policy review, with hourly follow-up
-  automation `check-google-ad-review`.
+- Google Demand Gen is active at `$20/day`.
 
 Validation and creation commands:
 

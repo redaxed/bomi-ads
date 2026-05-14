@@ -31,13 +31,13 @@ Demand Gen campaigns created from the current Meta visual assets on 2026-05-12:
 Pooled EHR-vs-Bomi test created on 2026-05-14:
 
 - Meta/Facebook Feed: campaign `120248005997630170`, ad set `120248006000710170`, ad `120248006007810170` / `$20/day` / currently `ACTIVE`
-- Google Demand Gen: campaign `23851846966`, ad group `197222331835`, ad `808795849849` / `$20/day` / currently `PAUSED` pending policy review, with hourly follow-up automation `check-google-ad-review`
+- Google Demand Gen: campaign `23851846966`, ad group `197222331835`, ad `808795849849` / `$20/day` / currently `ENABLED`
 - Assets: `assets/ehr_vs_bomi_tax_software_2026-05-14/`
 
 Pooled Own Your Business test created on 2026-05-14:
 
-- Meta/Facebook Feed: campaign `120248011749820170`, ad set `120248011750720170`, ad `120248011752520170` / `$20/day` / currently `PAUSED` pending review, with hourly follow-up automation `check-google-ad-review`
-- Google Demand Gen: campaign `23842205493`, ad group `199003668400`, ad `808769311863` / `$20/day` / currently `PAUSED` pending policy review, with hourly follow-up automation `check-google-ad-review`
+- Meta/Facebook Feed: campaign `120248011749820170`, ad set `120248011750720170`, ad `120248011752520170` / `$20/day` / currently `ACTIVE`
+- Google Demand Gen: campaign `23842205493`, ad group `199003668400`, ad `808769311863` / `$20/day` / currently `ENABLED`
 - Assets: `assets/own_business_handle_insurance_2026-05-14/`
 
 See [docs/WORK_LOG.md](docs/WORK_LOG.md) for the narrative of what has been done so far, [docs/CLONE_PREP.md](docs/CLONE_PREP.md) for the exact account audit and clone plan, and [docs/META_ADS_LEARNINGS.md](docs/META_ADS_LEARNINGS.md) for Meta Ads API and targeting lessons.
@@ -159,7 +159,7 @@ node --check google-ads-scripts/clone_state_campaigns.js
 
 Google Ads API validation passed for both Ohio and Indiana in `validateOnly` mode before the paused campaigns were created.
 
-The pooled EHR-vs-Bomi workflow generated one Moda square asset on 2026-05-14 and derived the extra formats locally to conserve credits. Meta and Google Demand Gen objects were created paused first; Meta was later activated after user approval, while Google Demand Gen remains paused pending review:
+The pooled EHR-vs-Bomi workflow generated one Moda square asset on 2026-05-14 and derived the extra formats locally to conserve credits. Meta and Google Demand Gen objects were created paused first and later activated after approval/review cleared:
 
 ```sh
 python3 scripts/moda_generate_ehr_vs_bomi_assets.py

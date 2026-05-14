@@ -213,8 +213,9 @@ Activation follow-up on 2026-05-14:
 
 - Meta was activated after user approval.
 - Meta activation readback: campaign/ad set/ad configured status `ACTIVE`; campaign/ad set/ad effective status `ACTIVE`; ad set budget remained `$20/day`.
-- Google Demand Gen was not activated because policy review remained `REVIEW_IN_PROGRESS` with approval status `UNKNOWN`.
-- A thread follow-up automation was created to recheck Google review hourly and enable only campaign `23851846966`, ad group `197222331835`, and ad `808795849849` after approval clears.
+- Google Demand Gen was initially left paused because policy review remained `REVIEW_IN_PROGRESS` with approval status `UNKNOWN`.
+- A thread follow-up automation was created to recheck Google review hourly and enable only campaign `23851846966`, ad group `197222331835`, and ad `808795849849` after approval cleared.
+- On the 2026-05-14 heartbeat, Google policy had cleared to `APPROVED` / `REVIEWED`; the campaign, ad group, and ad were enabled. Readback showed campaign status `ENABLED`, primary status `LEARNING`, ad group `ENABLED`, ad `ENABLED`, and the budget unchanged at `$20/day`.
 
 Commands:
 
@@ -286,6 +287,12 @@ The existing hourly thread follow-up automation `check-google-ad-review` was
 updated to also watch this Own Your Business Meta/Google stack. It should only
 activate the exact listed Meta and Google objects after the relevant reviews
 clear, while leaving all other ads untouched.
+
+Activation follow-up on 2026-05-14:
+
+- Meta review cleared and the Own Your Business Meta campaign, ad set, and ad were activated. Readback showed campaign/ad set/ad configured status `ACTIVE`, campaign/ad set/ad effective status `ACTIVE`, and the ad set budget unchanged at `$20/day`.
+- Google policy cleared to `APPROVED` / `REVIEWED`; campaign `23842205493`, ad group `199003668400`, and ad `808769311863` were enabled. Readback showed campaign status `ENABLED`, primary status `PENDING`, ad group `ENABLED`, ad `ENABLED`, and the budget unchanged at `$20/day`.
+- The follow-up automation had no remaining review-gated objects after this and was deleted.
 
 Commands:
 

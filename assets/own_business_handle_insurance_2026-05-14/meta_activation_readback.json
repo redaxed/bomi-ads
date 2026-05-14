@@ -1,0 +1,266 @@
+{
+  "readback": {
+    "ad": {
+      "configured_status": "ACTIVE",
+      "creative": {
+        "id": "1552847629515540"
+      },
+      "effective_status": "ACTIVE",
+      "id": "120248011752520170",
+      "name": "Bomi Own Your Business - Facebook Feed - 2026-05-14",
+      "status": "ACTIVE"
+    },
+    "ad_set": {
+      "configured_status": "ACTIVE",
+      "daily_budget": "2000",
+      "effective_status": "ACTIVE",
+      "id": "120248011750720170",
+      "name": "Pooled IL OH IN NM therapist operators - Own Business - Facebook Feed - 2026-05-14",
+      "status": "ACTIVE",
+      "targeting": {
+        "age_max": 65,
+        "age_min": 25,
+        "facebook_positions": [
+          "feed"
+        ],
+        "flexible_spec": [
+          {
+            "behaviors": [
+              {
+                "id": "6002714898572",
+                "name": "Small business owners"
+              }
+            ],
+            "industries": [
+              {
+                "id": "6008888954983",
+                "name": "Administrative Services"
+              },
+              {
+                "id": "6009003311983",
+                "name": "Management"
+              },
+              {
+                "id": "6012903159383",
+                "name": "Healthcare and Medical Services"
+              },
+              {
+                "id": "6012903168383",
+                "name": "Community and Social Services"
+              },
+              {
+                "id": "6262428209783",
+                "name": "Business decision maker titles and interests"
+              },
+              {
+                "id": "6262428231783",
+                "name": "Business Decision Makers"
+              },
+              {
+                "id": "6377134779583",
+                "name": "Company size: 11-100 employees"
+              },
+              {
+                "id": "6377169550583",
+                "name": "Company size: 1-10 employees"
+              }
+            ],
+            "interests": [
+              {
+                "id": "6002921291555",
+                "name": "Blue Cross Blue Shield Association"
+              }
+            ],
+            "work_positions": [
+              {
+                "id": "105563979478424",
+                "name": "Executive director"
+              },
+              {
+                "id": "108163765872304",
+                "name": "Mental health counselor"
+              },
+              {
+                "id": "108359589220684",
+                "name": "Owner/Psychotherapist"
+              },
+              {
+                "id": "125071804208180",
+                "name": "Licensed Clinical Social Worker/Therapist"
+              },
+              {
+                "id": "134988453211643",
+                "name": "Executive Director/CEO"
+              },
+              {
+                "id": "1461653794055392",
+                "name": "Psychotherapist-Counselor"
+              },
+              {
+                "id": "1554307254818982",
+                "name": "Clinical Psychologist"
+              },
+              {
+                "id": "1568941850012049",
+                "name": "Director of Clinical Services"
+              },
+              {
+                "id": "1569299249954237",
+                "name": "Medical Practice Manager"
+              },
+              {
+                "id": "1581181608766724",
+                "name": "Clinic Director"
+              },
+              {
+                "id": "330966250435806",
+                "name": "Licensed Professional Counselor (LPC)"
+              },
+              {
+                "id": "331557573704439",
+                "name": "Credentialing Specialist"
+              },
+              {
+                "id": "334533013408721",
+                "name": "Licensed Clinical Social Worker (LCSW)"
+              },
+              {
+                "id": "335586239976066",
+                "name": "Licensed Clinical Psychologist"
+              },
+              {
+                "id": "342225789309645",
+                "name": "Medical Billing Specialist"
+              },
+              {
+                "id": "407489252757668",
+                "name": "Counseling Psychologist"
+              },
+              {
+                "id": "432841263549002",
+                "name": "Medical Billing and Coding Specialist"
+              },
+              {
+                "id": "544823505660174",
+                "name": "Clinical Director"
+              },
+              {
+                "id": "593422084126001",
+                "name": "Behavioral Therapist"
+              },
+              {
+                "id": "668500706594423",
+                "name": "Billing Manager"
+              },
+              {
+                "id": "718196931629654",
+                "name": "Psychologist, Private Practice"
+              },
+              {
+                "id": "722313654550739",
+                "name": "Licensed Clinical Mental Health Counselor"
+              },
+              {
+                "id": "723240677773091",
+                "name": "Licensed Marriage and Family Therapist (LMFT)"
+              },
+              {
+                "id": "768293416579944",
+                "name": "Medical Biller"
+              },
+              {
+                "id": "786660018082739",
+                "name": "Billing Specialist"
+              },
+              {
+                "id": "884216444934879",
+                "name": "Medical Insurance Biller"
+              },
+              {
+                "id": "893771870644160",
+                "name": "Medical Office Manager"
+              },
+              {
+                "id": "911356208895948",
+                "name": "Practice Manager"
+              }
+            ]
+          }
+        ],
+        "geo_locations": {
+          "location_types": [
+            "home",
+            "recent"
+          ],
+          "regions": [
+            {
+              "country": "US",
+              "key": "3856",
+              "name": "Illinois"
+            },
+            {
+              "country": "US",
+              "key": "3857",
+              "name": "Indiana"
+            },
+            {
+              "country": "US",
+              "key": "3874",
+              "name": "New Mexico"
+            },
+            {
+              "country": "US",
+              "key": "3878",
+              "name": "Ohio"
+            }
+          ]
+        },
+        "publisher_platforms": [
+          "facebook"
+        ],
+        "targeting_automation": {
+          "advantage_audience": 1
+        }
+      }
+    },
+    "campaign": {
+      "configured_status": "ACTIVE",
+      "effective_status": "ACTIVE",
+      "id": "120248011749820170",
+      "name": "Bomi Own Your Business - Leads - 2026-05-14",
+      "status": "ACTIVE"
+    },
+    "creative": {
+      "id": "1552847629515540",
+      "name": "Bomi Own Your Business - Facebook Feed - 2026-05-14 2026-05-14-bfcdc28b7f9b5427a96ffe4f6175acdc",
+      "object_story_spec": {
+        "link_data": {
+          "call_to_action": {
+            "type": "BOOK_NOW",
+            "value": {
+              "link": "https://www.billwithbomi.com/?utm_source=meta&utm_medium=paid_social&utm_campaign=own_business_handle_insurance_pooled_states&utm_content=facebook_feed"
+            }
+          },
+          "description": "Schedule a free consultation.",
+          "image_hash": "bcc6c65cc650af5d1bf6e1b83a11428d",
+          "link": "https://www.billwithbomi.com/?utm_source=meta&utm_medium=paid_social&utm_campaign=own_business_handle_insurance_pooled_states&utm_content=facebook_feed",
+          "message": "Own your business. Let Bomi handle insurance billing and credentialing for your therapy practice. Flat 4% of collections.",
+          "name": "Own Your Business"
+        },
+        "page_id": "588675787671641"
+      },
+      "status": "ACTIVE"
+    }
+  },
+  "updates": {
+    "ad": {
+      "success": true
+    },
+    "ad_set": {
+      "success": true
+    },
+    "campaign": {
+      "success": true
+    }
+  }
+}

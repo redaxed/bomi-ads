@@ -1,0 +1,487 @@
+{
+  "readback": {
+    "ads": [
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "name": "Pooled state therapist operator audience",
+          "optimizedTargetingEnabled": true,
+          "resourceName": "customers/5613091482/adGroups/197222331835",
+          "status": "ENABLED"
+        },
+        "adGroupAd": {
+          "ad": {
+            "finalUrls": [
+              "https://www.billwithbomi.com/?utm_source=google&utm_medium=paid_demandgen&utm_campaign=ehr_vs_bomi_pooled_states&utm_content=square_landscape"
+            ],
+            "id": "808795849849",
+            "name": "Bomi EHR vs Expert Billing Team - pooled states",
+            "resourceName": "customers/5613091482/ads/808795849849"
+          },
+          "policySummary": {
+            "approvalStatus": "APPROVED",
+            "reviewStatus": "REVIEWED"
+          },
+          "resourceName": "customers/5613091482/adGroupAds/197222331835~808795849849",
+          "status": "ENABLED"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      }
+    ],
+    "campaigns": [
+      {
+        "campaign": {
+          "advertisingChannelType": "DEMAND_GEN",
+          "geoTargetTypeSetting": {
+            "positiveGeoTargetType": "PRESENCE"
+          },
+          "id": "23851846966",
+          "name": "Bomi EHR vs Expert Billing Team - Demand Gen - 2026-05-14",
+          "primaryStatus": "LEARNING",
+          "resourceName": "customers/5613091482/campaigns/23851846966",
+          "status": "ENABLED"
+        },
+        "campaignBudget": {
+          "amountMicros": "20000000",
+          "id": "15572267732",
+          "resourceName": "customers/5613091482/campaignBudgets/15572267732"
+        }
+      }
+    ],
+    "criteria": [
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~503001",
+          "type": "AGE_RANGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~503002",
+          "type": "AGE_RANGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~503003",
+          "type": "AGE_RANGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~503004",
+          "type": "AGE_RANGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~503005",
+          "type": "AGE_RANGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~503006",
+          "type": "AGE_RANGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~503999",
+          "type": "AGE_RANGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~10",
+          "type": "GENDER"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~11",
+          "type": "GENDER"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~20",
+          "type": "GENDER"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "language": {
+            "languageConstant": "languageConstants/1000"
+          },
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~1000",
+          "type": "LANGUAGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "location": {
+            "geoTargetConstant": "geoTargetConstants/21147"
+          },
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~21147",
+          "type": "LOCATION"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "location": {
+            "geoTargetConstant": "geoTargetConstants/21148"
+          },
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~21148",
+          "type": "LOCATION"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "location": {
+            "geoTargetConstant": "geoTargetConstants/21165"
+          },
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~21165",
+          "type": "LOCATION"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "location": {
+            "geoTargetConstant": "geoTargetConstants/21168"
+          },
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~21168",
+          "type": "LOCATION"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~300",
+          "type": "PARENTAL_STATUS"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~301",
+          "type": "PARENTAL_STATUS"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~302",
+          "type": "PARENTAL_STATUS"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~510000",
+          "type": "INCOME_RANGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~510001",
+          "type": "INCOME_RANGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~510002",
+          "type": "INCOME_RANGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~510003",
+          "type": "INCOME_RANGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~510004",
+          "type": "INCOME_RANGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~510005",
+          "type": "INCOME_RANGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~510006",
+          "type": "INCOME_RANGE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~2482022528282",
+          "type": "CUSTOM_AUDIENCE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroup": {
+          "id": "197222331835",
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        },
+        "adGroupCriterion": {
+          "audience": {
+            "audience": "customers/5613091482/audiences/347573090"
+          },
+          "resourceName": "customers/5613091482/adGroupCriteria/197222331835~2482312828550",
+          "type": "AUDIENCE"
+        },
+        "campaign": {
+          "id": "23851846966",
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      }
+    ]
+  },
+  "response": {
+    "mutateOperationResponses": [
+      {
+        "campaignResult": {
+          "resourceName": "customers/5613091482/campaigns/23851846966"
+        }
+      },
+      {
+        "adGroupResult": {
+          "resourceName": "customers/5613091482/adGroups/197222331835"
+        }
+      },
+      {
+        "adGroupAdResult": {
+          "resourceName": "customers/5613091482/adGroupAds/197222331835~808795849849"
+        }
+      },
+      {
+        "campaignResult": {
+          "resourceName": "customers/5613091482/campaigns/23842205493"
+        }
+      },
+      {
+        "adGroupResult": {
+          "resourceName": "customers/5613091482/adGroups/199003668400"
+        }
+      },
+      {
+        "adGroupAdResult": {
+          "resourceName": "customers/5613091482/adGroupAds/199003668400~808769311863"
+        }
+      }
+    ]
+  }
+}

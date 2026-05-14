@@ -78,11 +78,11 @@ Description:
 Book a free consultation.
 ```
 
-## Paused Pooled Own Your Business Test
+## Active Pooled Own Your Business Test
 
 Created on 2026-05-14 from the Moda-generated "Own your business. Let us handle
-insurance." asset. This stack is paused and should not be activated without a
-separate explicit go.
+insurance." asset. This stack was created paused, then activated on 2026-05-14
+after review cleared.
 
 - Folder: `assets/own_business_handle_insurance_2026-05-14/`
 - Campaign: `120248011749820170`
@@ -93,7 +93,7 @@ separate explicit go.
 - Placement: Facebook Feed only
 - Asset: `assets/own_business_handle_insurance_2026-05-14/own-business-handle-insurance-square-1080x1080.png`
 - Image hash: `bcc6c65cc650af5d1bf6e1b83a11428d`
-- Latest status checked on 2026-05-14: campaign/ad set/ad configured status `PAUSED`; campaign/ad set effective status `PAUSED`; ad effective status `PENDING_REVIEW`
+- Latest status checked on 2026-05-14 after activation: campaign/ad set/ad configured status `ACTIVE`; campaign/ad set/ad effective status `ACTIVE`
 - Targeting: Illinois, Ohio, Indiana, New Mexico; age `25-65+`; broad therapist/practice-operator flexible spec; Advantage audience expansion enabled
 - Final URL: `https://www.billwithbomi.com/?utm_source=meta&utm_medium=paid_social&utm_campaign=own_business_handle_insurance_pooled_states&utm_content=facebook_feed`
 

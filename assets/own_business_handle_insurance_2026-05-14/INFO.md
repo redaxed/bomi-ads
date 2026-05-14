@@ -1,7 +1,8 @@
 # Bomi Own Your Business Pooled Ad Test
 
 Created on 2026-05-14 as a paused pooled-state Meta/Facebook Feed and Google
-Demand Gen test. No activation was performed.
+Demand Gen test. Meta and Google Demand Gen were activated on 2026-05-14 after
+reviews cleared.
 
 ## Moda Asset Generation
 
@@ -28,25 +29,26 @@ Demand Gen test. No activation was performed.
 - Ad: `808769311863`
 - Audience: `customers/5613091482/audiences/347578874`
 - Assets: `customers/5613091482/assets/360645951263`, `360645951266`, `360645951269`
-- Readback: `assets/own_business_handle_insurance_2026-05-14/google_ads_readback.json`
+- Creation readback: `assets/own_business_handle_insurance_2026-05-14/google_ads_readback.json`
+- Meta activation readback: `assets/own_business_handle_insurance_2026-05-14/meta_activation_readback.json`
+- Google activation readback: `assets/own_business_handle_insurance_2026-05-14/google_ads_activation_readback.json`
 
 ## Meta Budget And Status
 
 - Daily budget: `2000` cents = `$20/day`
-- Creation status: paused only; no activation performed
-- Latest readback campaign status: `PAUSED` / effective `PAUSED`
-- Latest readback ad set status: `PAUSED` / effective `PAUSED`
-- Latest readback ad status: `PAUSED` / effective `PENDING_REVIEW`
+- Created paused; activated on 2026-05-14 after review cleared
+- Latest readback campaign status: `ACTIVE` / effective `ACTIVE`
+- Latest readback ad set status: `ACTIVE` / effective `ACTIVE`
+- Latest readback ad status: `ACTIVE` / effective `ACTIVE`
 
 ## Google Budget And Status
 
 - Daily budget: `20000000` micros = `$20/day`
-- Creation status: paused only; no activation performed
-- Latest readback campaign status: `PAUSED`, primary status `PAUSED`
-- Latest readback ad group status: `PAUSED`
-- Latest readback ad status: `PAUSED`
-- Policy review: `REVIEW_IN_PROGRESS`; approval status `UNKNOWN`
-- Follow-up automation: `check-google-ad-review` checks hourly and activates this Meta/Google stack only after reviews clear
+- Created paused; activated on 2026-05-14 after policy review cleared
+- Latest readback campaign status: `ENABLED`, primary status `PENDING`
+- Latest readback ad group status: `ENABLED`
+- Latest readback ad status: `ENABLED`
+- Policy review: `REVIEWED`; approval status `APPROVED`
 
 ## Asset
 
@@ -96,7 +98,7 @@ https://www.billwithbomi.com/?utm_source=meta&utm_medium=paid_social&utm_campaig
 - Google audience: native therapist practice-owner, insurance admin, billing, credentialing, eligibility, EOB, and payer-paperwork signals
 - Google optimized targeting: enabled
 
-## Meta Readback
+## Meta Creation Readback
 
 ```json
 {
@@ -364,6 +366,6 @@ https://www.billwithbomi.com/?utm_source=meta&utm_medium=paid_social&utm_campaig
 
 ## Safety Notes
 
-- Objects were created paused first and were not activated.
-- Do not activate without explicit user approval.
+- Objects were created paused first.
+- Meta and Google were activated only after reviews cleared on 2026-05-14.
 - Never commit or print Meta, Google Ads, or Moda credentials.

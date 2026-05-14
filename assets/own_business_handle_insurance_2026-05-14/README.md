@@ -10,7 +10,9 @@ Assets:
 - Google fallback portrait derivative: `own-business-handle-insurance-portrait-padded-1080x1920.png`
 - Moda metadata: `moda_metadata.json`
 - Meta handoff: `INFO.md`
-- Google readback: `google_ads_readback.json`
+- Meta activation readback: `meta_activation_readback.json`
+- Google creation readback: `google_ads_readback.json`
+- Google activation readback: `google_ads_activation_readback.json`
 
 Generation command used:
 
@@ -30,7 +32,7 @@ Moda output:
 - Generation mode: `single_moda_square_with_local_derivatives`
 - Credits remaining after generation: `1290`
 
-Paused platform objects:
+Platform objects:
 
 - Meta campaign: `120248011749820170`
 - Meta ad set: `120248011750720170`
@@ -43,10 +45,8 @@ Paused platform objects:
 
 Current state:
 
-- Meta/Facebook Feed remains paused pending review.
-- Google Demand Gen remains paused pending policy review.
-- Existing hourly follow-up automation `check-google-ad-review` was updated to
-  activate this Meta/Google stack only after reviews clear.
+- Meta/Facebook Feed is active at `$20/day`.
+- Google Demand Gen is active at `$20/day`.
 
 Validation and creation commands:
 
