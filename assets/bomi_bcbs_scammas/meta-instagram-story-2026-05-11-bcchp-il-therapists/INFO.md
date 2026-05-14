@@ -1,6 +1,6 @@
 # Bomi BCCHP Illinois Therapists Instagram Story Ad
 
-Last updated: 2026-05-11, America/Los_Angeles
+Last updated: 2026-05-13, America/Los_Angeles
 
 This is the fresh Instagram Story remake created after the original Instagram Feed stack appeared bugged. The old Instagram objects were deleted before this stack was created.
 
@@ -20,13 +20,17 @@ Created campaign stack:
 - Creative: `1668331050960382`
 - Ad: `120247752442290170`
 
-Latest readback on 2026-05-11:
+Latest readback on 2026-05-13:
 
 - Campaign status: `ACTIVE`
+- Campaign effective status: `ACTIVE`
 - Ad set status: `ACTIVE`
+- Ad set effective status: `ACTIVE`
 - Ad status: `ACTIVE`
+- Ad configured status: `ACTIVE`
 - Ad effective status: `ACTIVE`
-- Ad set daily budget: `2000` cents = `$20/day`
+- Ad set daily budget: `4000` cents = `$40/day`
+- 2026-05-13 performance at readback: `$0.72` spend, 45 impressions, 0 clicks, 0 landing page views
 - Landing URL: `https://billwithbomi.com`
 
 ## Deleted Previous Stack

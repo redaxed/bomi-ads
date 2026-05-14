@@ -1,0 +1,99 @@
+{
+  "assets": {
+    "landscape": {
+      "derived_from": "own-business-handle-insurance-square-1080x1080.png",
+      "spec": {
+        "filename": "own-business-handle-insurance-landscape-1200x628.png",
+        "height": 628,
+        "key": "landscape",
+        "label": "Landscape Demand Gen 1.91:1",
+        "width": 1200
+      },
+      "verification": {
+        "file": "assets/own_business_handle_insurance_2026-05-14/own-business-handle-insurance-landscape-1200x628.png: PNG image data, 1200 x 628, 8-bit/color RGB, non-interlaced",
+        "height": 628,
+        "path": "assets/own_business_handle_insurance_2026-05-14/own-business-handle-insurance-landscape-1200x628.png",
+        "width": 1200
+      }
+    },
+    "portrait": {
+      "derived_from": "own-business-handle-insurance-square-1080x1080.png",
+      "spec": {
+        "filename": "own-business-handle-insurance-portrait-padded-1080x1920.png",
+        "height": 1920,
+        "key": "portrait",
+        "label": "Portrait Demand Gen Padded",
+        "width": 1080
+      },
+      "verification": {
+        "file": "assets/own_business_handle_insurance_2026-05-14/own-business-handle-insurance-portrait-padded-1080x1920.png: PNG image data, 1080 x 1920, 8-bit/color RGB, non-interlaced",
+        "height": 1920,
+        "path": "assets/own_business_handle_insurance_2026-05-14/own-business-handle-insurance-portrait-padded-1080x1920.png",
+        "width": 1080
+      }
+    },
+    "square": {
+      "export": {
+        "canvas_id": "cvs_1WHG24DYJV96AVVEESRV54392Y",
+        "canvas_url": "https://moda.app/canvas/3c8c0446-fa5b-4995-bdb9-d9c6ca41a45e",
+        "format": "png",
+        "status": "completed",
+        "total_pages": 1
+      },
+      "pages": {
+        "error": "Moda API error 400 for /canvases/cvs_1WHG24DYJV96AVVEESRV54392Y/pages:\n{\"error\":{\"type\":\"invalid_request\",\"code\":\"invalid_request\",\"message\":\"1 validation error for ListCanvasPagesResponse\\ntotal_pages\\n  Field required [type=missing, input_value={'canvas_name': 'Bomi Own...080, 'node_count': 11}]}, input_type=dict]\\n    For further information visit https://errors.pydantic.dev/2.12/v/missing\",\"doc_url\":\"https://docs.moda.app/api-reference/errors\",\"request_id\":\"019e25ca-c615-75f7-bcc2-2d21b72f2ce6\"}}",
+        "warning": "Moda pages read failed; continuing with export"
+      },
+      "spec": {
+        "filename": "own-business-handle-insurance-square-1080x1080.png",
+        "height": 1080,
+        "key": "square",
+        "label": "Square Feed 1:1",
+        "width": 1080
+      },
+      "task": {
+        "completed_at": "2026-05-14T09:21:45.240382",
+        "created_at": "2026-05-14T09:19:40.337378",
+        "credits": {
+          "credits_remaining": 1290,
+          "credits_used": null
+        },
+        "error": null,
+        "id": "task_4X68C2FG1G9R3SSER2HA52YDX4",
+        "kind": "design",
+        "result": {
+          "canvas_id": "cvs_1WHG24DYJV96AVVEESRV54392Y",
+          "canvas_url": "https://moda.app/canvas/3c8c0446-fa5b-4995-bdb9-d9c6ca41a45e",
+          "conversation_id": "conv_6HJ5WWXWVF8WVR8N75F0NZH2AA"
+        },
+        "started_at": "2026-05-14T09:19:43.235761",
+        "status": "succeeded"
+      },
+      "verification": {
+        "file": "assets/own_business_handle_insurance_2026-05-14/own-business-handle-insurance-square-1080x1080.png: PNG image data, 1080 x 1080, 8-bit/color RGB, non-interlaced",
+        "height": 1080,
+        "path": "assets/own_business_handle_insurance_2026-05-14/own-business-handle-insurance-square-1080x1080.png",
+        "width": 1080
+      }
+    }
+  },
+  "brand_kit_id": "bk_0PHT577BFH8E9VV0M9QYNM1M24",
+  "brand_kits_count": 1,
+  "campaign_slug": "own_business_handle_insurance_pooled_states",
+  "credits_preflight": {
+    "credits_limit": 1500,
+    "credits_remaining": 1290,
+    "credits_reset_date": null,
+    "plan": "free"
+  },
+  "generated_at": "2026-05-14T09:19:40Z",
+  "generation_mode": "single_moda_square_with_local_derivatives",
+  "logo_upload": {
+    "filename": "logo-with-name.png",
+    "id": "file_4GCPG2EJ6F8P18X5QXN6FFRQQG",
+    "mime_type": "image/png",
+    "size_bytes": 370555,
+    "was_duplicate": true
+  },
+  "model_tier": "lite"
+}

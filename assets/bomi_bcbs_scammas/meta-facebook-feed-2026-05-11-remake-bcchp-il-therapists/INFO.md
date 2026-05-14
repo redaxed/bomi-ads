@@ -1,6 +1,6 @@
 # Bomi BCCHP Illinois Therapists Facebook Feed Ad Remake
 
-Last updated: 2026-05-11, America/Los_Angeles
+Last updated: 2026-05-13, America/Los_Angeles
 
 This is the fresh Facebook Feed remake created after the original Meta stacks appeared bugged. The old Facebook objects were deleted before this stack was created.
 
@@ -20,13 +20,18 @@ Created campaign stack:
 - Creative: `1323556353061976`
 - Ad: `120247752456360170`
 
-Latest readback on 2026-05-11:
+Latest readback on 2026-05-13:
 
 - Campaign status: `ACTIVE`
-- Ad set status: `ACTIVE`
+- Campaign effective status: `ACTIVE`
+- Ad set status: `PAUSED`
+- Ad set configured status: `PAUSED`
+- Ad set effective status: `PAUSED`
 - Ad status: `ACTIVE`
-- Ad effective status: `ACTIVE`
+- Ad configured status: `ACTIVE`
+- Ad effective status: `ADSET_PAUSED`
 - Ad set daily budget: `2000` cents = `$20/day`
+- 2026-05-13 performance at readback: `$0.00` spend, 0 impressions, 0 clicks, 0 landing page views
 - Landing URL: `https://billwithbomi.com`
 
 ## Deleted Previous Stack

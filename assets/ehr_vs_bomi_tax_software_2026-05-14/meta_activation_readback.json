@@ -1,0 +1,42 @@
+{
+  "checked_at": "2026-05-14",
+  "activation": {
+    "campaign": {
+      "id": "120248005997630170",
+      "name": "Bomi EHR vs Expert Billing Team - Leads - 2026-05-14",
+      "status": "ACTIVE",
+      "configured_status": "ACTIVE",
+      "effective_status": "ACTIVE"
+    },
+    "ad_set": {
+      "id": "120248006000710170",
+      "name": "Pooled IL OH IN NM therapist operators - Facebook Feed - 2026-05-14",
+      "status": "ACTIVE",
+      "configured_status": "ACTIVE",
+      "effective_status": "ACTIVE",
+      "daily_budget": "2000",
+      "targeting_summary": {
+        "age_min": 25,
+        "age_max": 65,
+        "publisher_platforms": ["facebook"],
+        "facebook_positions": ["feed"],
+        "regions": [
+          {"key": "3856", "name": "Illinois"},
+          {"key": "3857", "name": "Indiana"},
+          {"key": "3874", "name": "New Mexico"},
+          {"key": "3878", "name": "Ohio"}
+        ],
+        "location_types": ["home", "recent"],
+        "advantage_audience": 1
+      }
+    },
+    "ad": {
+      "id": "120248006007810170",
+      "name": "Bomi EHR vs Expert Billing Team - Facebook Feed - 2026-05-14",
+      "status": "ACTIVE",
+      "configured_status": "ACTIVE",
+      "effective_status": "ACTIVE",
+      "creative_id": "998947609178695"
+    }
+  }
+}
