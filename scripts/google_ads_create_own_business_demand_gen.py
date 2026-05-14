@@ -32,9 +32,12 @@ base.CAMPAIGN_NAME = "Bomi Own Your Business - Demand Gen - 2026-05-14"
 base.AD_GROUP_NAME = "Pooled state therapist practice-owner audience"
 base.AD_NAME = "Bomi Own Your Business - pooled states"
 base.FINAL_URL = (
-    "https://www.billwithbomi.com/"
-    "?utm_source=google&utm_medium=paid_demandgen"
-    "&utm_campaign=own_business_handle_insurance_pooled_states&utm_content=square_landscape"
+    base.build_google_demand_gen_url(
+        "https://www.billwithbomi.com/",
+        campaign="own_business_handle_insurance_pooled_states",
+        content="square_landscape",
+        audience="pooled_states_therapist_practice_owners",
+    )
 )
 
 base.CUSTOM_AUDIENCE_TERMS = [

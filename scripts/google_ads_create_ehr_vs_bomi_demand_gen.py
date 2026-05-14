@@ -23,6 +23,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from ad_tracking_urls import build_google_demand_gen_url
+
 
 API_VERSION = os.getenv("GOOGLE_ADS_API_VERSION", "v24")
 GOOGLE_ADS_BASE = f"https://googleads.googleapis.com/{API_VERSION}"
@@ -40,9 +42,12 @@ CAMPAIGN_NAME = f"Bomi EHR vs Expert Billing Team - Demand Gen - {CAMPAIGN_DATE}
 AD_GROUP_NAME = "Pooled state therapist operator audience"
 AD_NAME = "Bomi EHR vs Expert Billing Team - pooled states"
 FINAL_URL = (
-    "https://www.billwithbomi.com/"
-    "?utm_source=google&utm_medium=paid_demandgen"
-    "&utm_campaign=ehr_vs_bomi_pooled_states&utm_content=square_landscape"
+    build_google_demand_gen_url(
+        "https://www.billwithbomi.com/",
+        campaign="ehr_vs_bomi_pooled_states",
+        content="square_landscape",
+        audience="pooled_states_therapist_operators",
+    )
 )
 DAILY_BUDGET_MICROS = 20_000_000
 ENGLISH_LANGUAGE = "languageConstants/1000"

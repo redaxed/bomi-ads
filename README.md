@@ -50,6 +50,19 @@ See [docs/WORK_LOG.md](docs/WORK_LOG.md) for the narrative of what has been done
 4. Create new campaigns paused.
 5. Review in Google Ads before enabling.
 
+## Landing URL tracking
+
+Campaign links should be built with [scripts/ad_tracking_urls.py](scripts/ad_tracking_urls.py), not hand-written query strings. The helper requires the landing attribution fields that bomi-api stores from `/api/attribution-events`:
+
+- `utm_source`
+- `utm_medium`
+- `utm_campaign`
+- `utm_content`
+- `utm_audience`
+- `utm_id`
+
+Google Search URLs also include `utm_term={keyword}`. Google URLs preserve ValueTrack fields such as `{campaignid}` and `{creative}` so landing receives platform IDs on real clicks while still keeping Bomi's campaign/audience slugs readable.
+
 ## Daily report automation
 
 The Codex `Ads Report` automation uses [skills/daily-ads-report/SKILL.md](skills/daily-ads-report/SKILL.md). Each run should:
@@ -120,6 +133,7 @@ Paste into Google Ads > Tools > Bulk actions > Scripts. Use Preview before Run.
 Use this when you want Codex or a terminal to audit/validate/apply from the API:
 
 - [scripts/google_ads_clone_state_campaigns.py](scripts/google_ads_clone_state_campaigns.py)
+- [scripts/ad_tracking_urls.py](scripts/ad_tracking_urls.py)
 - [scripts/google_ads_daily_report.py](scripts/google_ads_daily_report.py)
 - [scripts/google_ads_create_il_therapist_demand_gen.py](scripts/google_ads_create_il_therapist_demand_gen.py)
 - [scripts/moda_generate_ehr_vs_bomi_assets.py](scripts/moda_generate_ehr_vs_bomi_assets.py)

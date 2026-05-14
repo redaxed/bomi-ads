@@ -21,6 +21,8 @@ import urllib.request
 from dataclasses import dataclass
 from typing import Any
 
+from ad_tracking_urls import build_google_search_url, slugify
+
 
 API_VERSION = os.getenv("GOOGLE_ADS_API_VERSION", "v24")
 GOOGLE_ADS_BASE = f"https://googleads.googleapis.com/{API_VERSION}"
@@ -532,6 +534,21 @@ def landing_page_variant(url: str, landing_page: str) -> str:
     )
 
 
+def tracked_search_landing_page(
+    landing_page: str,
+    *,
+    state: str,
+    campaign_name: str,
+    content: str,
+) -> str:
+    return build_google_search_url(
+        landing_page,
+        campaign=slugify(campaign_name),
+        content=replace_state_text(content, state),
+        audience=f"{slugify(state)}_state_search",
+    )
+
+
 def create_operations_for_state(
     credentials: Credentials,
     state: str,
@@ -680,7 +697,14 @@ def create_operations_for_state(
             ),
             "status": "PAUSED",
             "ad": {
-                "finalUrls": [landing_page],
+                "finalUrls": [
+                    tracked_search_landing_page(
+                        landing_page,
+                        state=state,
+                        campaign_name=campaign_name,
+                        content=row["adGroup"].get("name", "responsive_search_ad"),
+                    )
+                ],
                 "responsiveSearchAd": {
                     "headlines": text_asset_list(rsa.get("headlines", []), state),
                     "descriptions": text_asset_list(rsa.get("descriptions", []), state),
@@ -716,7 +740,12 @@ def create_operations_for_state(
                             sitelink[description_key], state
                         )
                 asset_create["finalUrls"] = [
-                    landing_page_variant(url, landing_page)
+                    tracked_search_landing_page(
+                        landing_page_variant(url, landing_page),
+                        state=state,
+                        campaign_name=campaign_name,
+                        content=f"sitelink_{sitelink.get('linkText', 'asset')}",
+                    )
                     for url in asset.get("finalUrls", [])
                 ]
             elif asset_type == "CALLOUT":

@@ -19,6 +19,8 @@ from typing import Any
 
 import requests
 
+from ad_tracking_urls import build_meta_feed_url
+
 
 GRAPH_VERSION = "v22.0"
 GRAPH_BASE = f"https://graph.facebook.com/{GRAPH_VERSION}"
@@ -36,9 +38,11 @@ CREATIVE_NAME = "Bomi EHR vs Expert Billing Team - Facebook Feed - 2026-05-14"
 AD_NAME = "Bomi EHR vs Expert Billing Team - Facebook Feed - 2026-05-14"
 DAILY_BUDGET_CENTS = 2000
 FINAL_URL = (
-    "https://www.billwithbomi.com/"
-    "?utm_source=meta&utm_medium=paid_social"
-    "&utm_campaign=ehr_vs_bomi_pooled_states&utm_content=facebook_feed"
+    build_meta_feed_url(
+        "https://www.billwithbomi.com/",
+        campaign="ehr_vs_bomi_pooled_states",
+        audience="pooled_states_therapist_operators",
+    )
 )
 
 AD_MESSAGE = (

@@ -23,6 +23,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from ad_tracking_urls import build_google_demand_gen_url
+
 
 API_VERSION = os.getenv("GOOGLE_ADS_API_VERSION", "v24")
 GOOGLE_ADS_BASE = f"https://googleads.googleapis.com/{API_VERSION}"
@@ -619,10 +621,12 @@ def build_operations(
                 -103,
                 -102,
                 "IL therapist reimbursement review - exact title signals",
-                FINAL_URL_BASE
-                + "?utm_source=google&utm_medium=paid_demandgen"
-                + "&utm_campaign=il_therapist_reimbursement_review"
-                + "&utm_content=exact_titles",
+                build_google_demand_gen_url(
+                    FINAL_URL_BASE,
+                    campaign="il_therapist_reimbursement_review",
+                    content="exact_titles",
+                    audience="il_exact_therapist_titles",
+                ),
                 landscape_asset,
                 square_asset,
                 story_asset,
@@ -633,10 +637,12 @@ def build_operations(
                 -203,
                 -202,
                 "IL therapist reimbursement review - operator signals",
-                FINAL_URL_BASE
-                + "?utm_source=google&utm_medium=paid_demandgen"
-                + "&utm_campaign=il_therapist_reimbursement_review"
-                + "&utm_content=operator_broad",
+                build_google_demand_gen_url(
+                    FINAL_URL_BASE,
+                    campaign="il_therapist_reimbursement_review",
+                    content="operator_broad",
+                    audience="il_operator_broad",
+                ),
                 landscape_asset,
                 square_asset,
                 story_asset,

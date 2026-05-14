@@ -359,7 +359,7 @@ function buildOperationsForTarget_(context) {
     const sourceAd = row.adGroupAd.ad;
     const rsa = sourceAd.responsiveSearchAd;
     const ad = {
-      finalUrls: [target.landingPage],
+      finalUrls: [buildTrackedSearchUrl_(target.landingPage, campaignName, adGroup.name, target)],
       responsiveSearchAd: {
         headlines: textAssets_(rsa.headlines || [], target),
         descriptions: textAssets_(rsa.descriptions || [], target),
@@ -464,6 +464,31 @@ function replaceStateText_(value, target) {
     .replace(/\bIllinois\b/g, target.state)
     .replace(/\billinois\b/g, target.state.toLowerCase())
     .replace(/\bIL\b/g, target.abbreviation);
+}
+
+function buildTrackedSearchUrl_(landingPage, campaignName, content, target) {
+  const params = [
+    ['utm_source', 'google'],
+    ['utm_medium', 'paid_search'],
+    ['utm_campaign', slugify_(campaignName)],
+    ['utm_content', `${slugify_(replaceStateText_(content, target))}_ad_{creative}`],
+    ['utm_audience', `${slugify_(target.state)}_state_search`],
+    ['utm_id', '{campaignid}'],
+    ['utm_term', '{keyword}'],
+  ];
+  const separator = String(landingPage).indexOf('?') === -1 ? '?' : '&';
+  return String(landingPage) + separator + params.map(([key, value]) => {
+    return `${encodeURIComponent(key)}=${encodeTrackingValue_(value)}`;
+  }).join('&');
+}
+
+function encodeTrackingValue_(value) {
+  return encodeURIComponent(value).replace(/%7B/g, '{').replace(/%7D/g, '}');
+}
+
+function slugify_(value) {
+  const slug = String(value).toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  return slug || 'unknown';
 }
 
 function copyKeys_(source, keys) {

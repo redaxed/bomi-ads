@@ -33,9 +33,11 @@ base.AD_SET_NAME = "Pooled IL OH IN NM therapist operators - Own Business - Face
 base.CREATIVE_NAME = "Bomi Own Your Business - Facebook Feed - 2026-05-14"
 base.AD_NAME = "Bomi Own Your Business - Facebook Feed - 2026-05-14"
 base.FINAL_URL = (
-    "https://www.billwithbomi.com/"
-    "?utm_source=meta&utm_medium=paid_social"
-    "&utm_campaign=own_business_handle_insurance_pooled_states&utm_content=facebook_feed"
+    base.build_meta_feed_url(
+        "https://www.billwithbomi.com/",
+        campaign="own_business_handle_insurance_pooled_states",
+        audience="pooled_states_therapist_practice_owners",
+    )
 )
 base.AD_MESSAGE = (
     "Own your business. Let Bomi handle insurance billing and credentialing for "

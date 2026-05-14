@@ -303,6 +303,63 @@ python3 scripts/google_ads_create_own_business_demand_gen.py
 python3 scripts/google_ads_create_own_business_demand_gen.py --apply
 ```
 
+### Targeting feedback implementation
+
+Implemented the targeting-feedback plan for Google Search while leaving Meta and
+Demand Gen as planning/scaffold items for the next round.
+
+New local scripts:
+
+- `scripts/google_ads_optimize_state_payer_targeting.py`
+- `scripts/google_ads_plan_demand_gen_segments.py`
+
+Google Search changes applied after `validateOnly` passed:
+
+- Disabled Content/Display expansion on:
+  - Illinois / `schedule meeting` / `23586656126`
+  - Ohio / `schedule meeting - Ohio 1777010295580` / `23783665086`
+  - New Mexico / `schedule meeting - New Mexico 1777091221508` / `23786543262`
+- Left Indiana / `23793592462` unchanged for network cleanup because its
+  Content network was already off.
+- Created enabled `Payer/program phrase + exact` ad groups with enabled RSAs:
+  - Illinois ad group `193750706822`; RSA ad `808831359264`
+  - Ohio ad group `194310231497`; RSA ad `808865425120`
+  - Indiana ad group `195852581745`; RSA ad `808865467198`
+  - New Mexico ad group `194310233417`; RSA ad `808865467363`
+- Added payer/program terms as phrase and exact match:
+  - Illinois: `30/30`
+  - Ohio: `28/28`
+  - Indiana: `28/28`
+  - New Mexico: `26/26`
+- Added the conservative negative map to General Bomi Leads and all four state
+  Search campaigns; readback confirmed `59/59` planned negatives on each.
+
+Validation/readback:
+
+```text
+VALIDATE ONLY: 418 operations
+{}
+APPLIED: 418 operations
+No Google Ads changes needed.
+```
+
+Post-apply campaign readback confirmed all five Search campaigns remain
+`ENABLED` / `ELIGIBLE`; budgets were preserved at General `$25/day` and state
+Search `$20/day`. All state Search campaigns now read
+`targetContentNetwork=false`.
+
+Post-apply RSA readback showed the four new RSAs enabled with policy review
+still `REVIEW_IN_PROGRESS` / approval `UNKNOWN`, which is expected immediately
+after creation.
+
+Detailed handoff:
+
+- `docs/TARGETING_FEEDBACK_IMPLEMENTATION.md`
+
+No new Demand Gen objects were created. The Demand Gen script is only a
+config-only scaffold for future high-intent billing, payer-pain, EHR-pain,
+practice-operator, retargeting, and scaled optimized-targeting splits.
+
 ## 2026-04-24
 
 ### Troff content workflow
